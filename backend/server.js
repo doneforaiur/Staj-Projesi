@@ -22,7 +22,6 @@ connection.once('open', () => {
 const bahislerRouter = require('./routes/bahisler');
 //const kullanicilarRouter = require('./routes/kullanicilar');
 
-
 app.use('/bahisler', bahislerRouter);
 //app.use('/kullanicilar', kullanicilarRouter);
 
