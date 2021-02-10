@@ -20,10 +20,17 @@ connection.once('open', () => {
 })
 
 const bahislerRouter = require('./routes/bahisler');
-//const kullanicilarRouter = require('./routes/kullanicilar');
+const kullanicilarRouter = require('./routes/kullanicilar');
+const kuponlarRouter = require('./routes/kuponlar');
+
+
 
 app.use('/bahisler', bahislerRouter);
-//app.use('/kullanicilar', kullanicilarRouter);
+app.use('/kullanicilar', kullanicilarRouter);
+app.use('/kuponlar', kuponlarRouter);
+
+
+
 
 
 app.listen(port, ()=> {
