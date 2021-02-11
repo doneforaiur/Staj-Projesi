@@ -33,7 +33,7 @@ router.route('/:id').get((req,res) => {
     .catch(err => res.status(400).json('Hata; ' + err));
 });
 
-
+// güvenlik açığı
 router.route('/oran_update/:id').post((req,res) =>{
   Bahis.findById(req.params.id)
   .then(bahis => {
@@ -48,6 +48,7 @@ router.route('/oran_update/:id').post((req,res) =>{
 
 });
 
+// güvenlik açığı
 router.route('/oynayan_update/:id').post((req,res) =>{
   Bahis.findById(req.params.id)
   .then(bahis => {

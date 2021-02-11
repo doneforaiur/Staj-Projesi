@@ -18,9 +18,10 @@ router.route('/add').post((req,res) =>{
 
 
   var bitis_tarihi ="1970-01-01T01:01:01.01Z";
-  var bahisArray = []
-  Bahis.find().where('_id').in(ids).exec((err, bahisler) => {
-     bahisler.forEach((bahis)=>{
+  var bahisArray = [];
+
+  Bahis.find().where('_id').in(ids).sort('-bitis_tarihi').exec((err, bahisler) => {
+      bahisler.forEach((bahis)=>{
 
       var tahmin = kupon.find(t=>t.id == bahis._id).tahmin;
       var oran =  (tahmin == "tutar") ?  bahis.oran.tutar_oran : bahis.oran.tutmaz_oran;
@@ -31,9 +32,6 @@ router.route('/add').post((req,res) =>{
         "oran" :oran
       }
       bahisArray.push(bahisData);
-      (bahis.bitis > bitis_tarihi) ? bitis_tarihi = bahis.bitis : bitis_tarihi = bitis_tarihi;
-      //  TODO; bitis_tarihi düzgün çalışmıyor
-
 
       //  oynayan sayısını arttırma
 
@@ -69,7 +67,7 @@ router.route('/add').post((req,res) =>{
       bahis.save();
 
     });
-    
+    var bitis_tarihi = bahisler[0].bitis;
     bahisler = bahisArray;
     const yeniKupon = new Kupon({
       bahisler, 
@@ -81,20 +79,21 @@ router.route('/add').post((req,res) =>{
     yeniKupon.save()
       .then(() => res.json("Kupon eklendi."))
       .catch(err => res.status(400).json('Hata; ' + err));
-  
-  })
-
-
+  });
 });
 
 router.route('/:id').get((req,res) => {
   Kupon.findById(req.params.id)
-    .then(bahis => res.json(bahis))
+    .then(kupon => res.json(kupon))
     .catch(err => res.status(400).json('Hata; ' + err));
 });
 
-router.route('/user_kupon/:id')
-// id, kullanıcı id'si
+router.route('/kullanici_kupon/:id').get((req,res) =>{
+  // id, kullanici id'si
+  Kupon.find({kullanici_id:id}).sort({'createdAt':-1})
+    .then(kuponlar => res.json(kuponlar))
+    .catch(err => res.status(400).json('Hata; ' + err));
+});
 
 
 module.exports = router;

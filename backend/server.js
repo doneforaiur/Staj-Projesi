@@ -22,13 +22,13 @@ connection.once('open', () => {
 const bahislerRouter = require('./routes/bahisler');
 const kullanicilarRouter = require('./routes/kullanicilar');
 const kuponlarRouter = require('./routes/kuponlar');
-
+const yorumlarRouter = require('./routes/yorumlar');
 
 
 app.use('/bahisler', bahislerRouter);
 app.use('/kullanicilar', kullanicilarRouter);
 app.use('/kuponlar', kuponlarRouter);
-
+app.use('/yorumlar', yorumlarRouter);
 
 
 

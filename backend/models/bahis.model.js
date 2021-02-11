@@ -10,8 +10,8 @@ const bahisSchema = new Schema({
   oran: {
     tutar_oran:     {type: Number, default: 2},
     tutmaz_oran:    {type: Number, default: 2},
-    tutar_oynayan:  {type: Number, default: 0},
-    tutmaz_oynayan: {type: Number, default: 0}
+    tutar_oynayan:  {type: Number, default: 10}, // Oranlar daha yavaş değişmesi için
+    tutmaz_oynayan: {type: Number, default: 10}
 }},
     {timestamps: true}
 );
