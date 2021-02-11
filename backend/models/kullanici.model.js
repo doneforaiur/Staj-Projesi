@@ -10,7 +10,8 @@ const kullaniciSchema = new Schema({
     type: String, unique: true, requiered: true
   },
     sifre: {type: String, required: true},
-    bakiye: {type: Number, requiered: true, default: 1000}
+    bakiye: {type: Number, requiered: true, default: 1000},
+    yetki: {type: String, requiered: true, default: "uye"}
   },
     {timestamps: true}
 );
