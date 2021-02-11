@@ -3,7 +3,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const kullaniciSchema = new Schema({
-    kullanici_adi : {type: String, required: true, trim:true},
+  // https://stackoverflow.com/questions/16882938/how-to-check-if-that-data-already-exist-in-the-database-during-update-mongoose
+  // https://luxiyalu.com/mongoose-unique-not-working/
+  // server başladıktan bir süre sonra ekleme yapmak lazım?
+  kullanici_adi: {
+    type: String, unique: true, requiered: true
+  },
     sifre: {type: String, required: true},
     bakiye: {type: Number, requiered: true, default: 1000}
   },

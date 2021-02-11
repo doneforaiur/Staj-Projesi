@@ -16,8 +16,6 @@ router.route('/add').post((req,res) =>{
   ids = kupon.map(({ id }) => id);
 // ids, kupona eklenecek bütün bahislerin id arrayi
 
-
-  var bitis_tarihi ="1970-01-01T01:01:01.01Z";
   var bahisArray = [];
 
   Bahis.find().where('_id').in(ids).sort('-bitis_tarihi').exec((err, bahisler) => {

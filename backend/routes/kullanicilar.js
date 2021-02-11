@@ -2,19 +2,16 @@ const router = require('express').Router();
 let Kullanici = require('../models/kullanici.model');
 let Kupon = require('../models/kupon.model');
 
-
-
 router.route('/').get((req, res) => {
   Kullanici.find().sort({'bakiye':-1})
     .then(kullanicilar => res.json(kullanicilar))
     .catch(err => res.status(400).json('Hata; ' + err));
 });
 
-
 router.route('/add').post((req,res) =>{
   const kullanici_adi    = req.body.kullanici_adi;
   const sifre    = req.body.sifre;
-  
+
   const yeniKullanici = new Kullanici({
     kullanici_adi,
     sifre,

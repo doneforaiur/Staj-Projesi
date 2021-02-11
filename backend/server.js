@@ -12,17 +12,17 @@ app.use(cors());
 app.use(express.json());
 
 const uri = process.env.ATLAS_URI;
-mongoose.connect(uri,{useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(uri,{autoIndex: true, useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
 
 const connection = mongoose.connection;
 connection.once('open', () => {
   console.log("mongodb bağlandı")
 })
 
-const bahislerRouter = require('./routes/bahisler');
-const kullanicilarRouter = require('./routes/kullanicilar');
-const kuponlarRouter = require('./routes/kuponlar');
-const yorumlarRouter = require('./routes/yorumlar');
+const bahislerRouter      = require('./routes/bahisler');
+const kullanicilarRouter  = require('./routes/kullanicilar');
+const kuponlarRouter      = require('./routes/kuponlar');
+const yorumlarRouter      = require('./routes/yorumlar');
 
 
 app.use('/bahisler', bahislerRouter);
