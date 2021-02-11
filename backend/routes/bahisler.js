@@ -9,6 +9,11 @@ router.route('/').get((req, res) => {
 
 
 router.route('/add').post((req,res) =>{
+  const { yetki } = req.user;
+  if (yetki !== "admin" || yetki !== "moderator"){
+    return res.sendStatus(403);
+  }
+
   const baslik    = req.body.baslik;
   const icerik    = req.body.baslik;
   const baslangic = req.body.baslangic;
@@ -33,8 +38,12 @@ router.route('/:id').get((req,res) => {
     .catch(err => res.status(400).json('Hata; ' + err));
 });
 
-// güvenlik açığı
 router.route('/oran_update/:id').post((req,res) =>{
+  const { yetki } = req.user;
+  if (yetki !== "admin"){
+    return res.sendStatus(403);
+  }
+
   Bahis.findById(req.params.id)
   .then(bahis => {
     bahis.oran.tutar_oran = req.body.tutar_oran;
@@ -48,8 +57,12 @@ router.route('/oran_update/:id').post((req,res) =>{
 
 });
 
-// güvenlik açığı
 router.route('/oynayan_update/:id').post((req,res) =>{
+  const { yetki } = req.user;
+  if (yetki !== "admin"){
+    return res.sendStatus(403);
+  }
+
   Bahis.findById(req.params.id)
   .then(bahis => {
     bahis.oran.tutar_oynayan  = req.body.tutar_oynayan;

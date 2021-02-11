@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config({path:'./dot.env'});
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
@@ -43,14 +43,14 @@ const kullanicilarRouter  = require('./routes/kullanicilar');
 const kuponlarRouter      = require('./routes/kuponlar');
 const yorumlarRouter      = require('./routes/yorumlar');
 const loginRouter         = require('./routes/login');
-
+const signupRouter        = require('./routes/signup');
 
 app.use('/bahisler', authenticateJWT ,bahislerRouter);
 app.use('/kullanicilar',authenticateJWT ,kullanicilarRouter);
 app.use('/kuponlar',authenticateJWT ,kuponlarRouter);
-app.use('/yorumlar' ,yorumlarRouter);
+app.use('/yorumlar',authenticateJWT ,yorumlarRouter);
 app.use('/login', loginRouter);
-
+app.use('/signup', signupRouter);
 
 
 app.listen(port, ()=> {
