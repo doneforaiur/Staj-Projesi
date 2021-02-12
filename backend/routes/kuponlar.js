@@ -1,6 +1,8 @@
 const router = require('express').Router();
 let Kupon = require('../models/kupon.model');
 let Bahis = require('../models/bahis.model');
+let Kullanici = require('../models/kullanici.model')
+
 
 router.route('/').get((req, res) => {
   Kupon.find()
@@ -10,15 +12,30 @@ router.route('/').get((req, res) => {
 
 
 router.route('/add').post((req,res) =>{
-  const kullanici_id = req.body.kullanici_id;
+  const {kullanici_adi} = req.user;
+  console.log(kullanici_adi);
   const tutar = req.body.tutar;
   const kupon = req.body.kupon;
   ids = kupon.map(({ id }) => id);
 // ids, kupona eklenecek bütün bahislerin id arrayi
+  var kullanici_id = undefined;
 
+
+  Kullanici.findOne({kullanici_adi:kullanici_adi})
+  .then((kullanici) => {
+    kullanici_id = kullanici._id;
+    console.log(kullanici);
+    if(kullanici.bakiye < tutar){
+      res.json("Yetersiz bakiye.");
+      res.send();
+    }
+    kullanici.bakiye = kullanici.bakiye - tutar;
+    kullanici.save();
+  });
+  
   var bahisArray = [];
 
-  Bahis.find().where('_id').in(ids).sort('-bitis_tarihi').exec((err, bahisler) => {
+  Bahis.find().where('_id').in(ids).sort('-bitis').exec((err, bahisler) => {
       bahisler.forEach((bahis)=>{
 
       var tahmin = kupon.find(t=>t.id == bahis._id).tahmin;
@@ -88,6 +105,7 @@ router.route('/:id').get((req,res) => {
 
 router.route('/kullanici_kupon/:id').get((req,res) =>{
   // id, kullanici id'si
+  var id = req.params.id;
   Kupon.find({kullanici_id:id}).sort({'createdAt':-1})
     .then(kuponlar => res.json(kuponlar))
     .catch(err => res.status(400).json('Hata; ' + err));

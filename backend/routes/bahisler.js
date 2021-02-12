@@ -7,10 +7,18 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Hata; ' + err));
 });
 
+router.route('/sort').get((req, res) => {
+  Bahis.find({bitis: -1})
+    .then(bahisler => res.json(bahisler))
+    .catch(err => res.status(400).json('Hata; ' + err));
+});
+
+
 
 router.route('/add').post((req,res) =>{
   const { yetki } = req.user;
-  if (yetki !== "admin" || yetki !== "moderator"){
+  console.log(yetki);
+  if (yetki != 'admin'){
     return res.sendStatus(403);
   }
 

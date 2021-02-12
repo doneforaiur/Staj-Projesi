@@ -11,7 +11,7 @@ router.route('/').post((req, res) => {
   const sifre = req.body.sifre;
   console.log(kullanici_adi, sifre);
   // https://stackabuse.com/authentication-and-authorization-with-jwts-in-express-js/
-  const kullanici = Kullanici.findOne({ kullanici_adi: kullanici_adi, sifre: sifre})
+  Kullanici.findOne({ kullanici_adi: kullanici_adi, sifre: sifre})
   .then((kullanici) =>{
     console.log(kullanici);
     if (kullanici != null ) {
@@ -23,7 +23,6 @@ router.route('/').post((req, res) => {
   }
   })
   .catch(err =>  res.send("Hata; " + err));
-
 });
 
 
