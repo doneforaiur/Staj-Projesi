@@ -3,7 +3,7 @@ let Kullanici = require('../models/kullanici.model');
 let Kupon = require('../models/kupon.model');
 
 router.route('/').get((req, res) => {
-  Kullanici.find().sort({'bakiye':-1})
+  Kullanici.find().select('-sifre -yetki -email -_id -updatedAt -__v').sort({'bakiye':-1})
     .then(kullanicilar => res.json(kullanicilar))
     .catch(err => res.status(400).json('Hata; ' + err));
 });
@@ -11,11 +11,19 @@ router.route('/').get((req, res) => {
 
 // Kullanıcının id'si ile değil kullanıcı adı ile aranacak
 // oynadığı bütün kuponlar ve bakiyesi görünecek?
-router.route('/:kullanici_adi').get((req,res) => {
-  Kullanici.find({'kullanici_adi': req.params.kullanici_adi})
+router.route('/:id').get((req,res) => {
+  console.log(req.params.id);
+  Kullanici.findOne({'kullanici_adi': req.params.id})
     .then(kullanici => {
-      Kupon.find({'kullanici_id': kullanici.kullanici_id})
-        .then(kullanicinin_kuponlari => res.json(kullanicinin_kuponlari + kullanici.bakiye))
+      if(kullanici == null){
+        res.json("Böyle bir kullanıcı yok.")
+      }
+      Kupon.find({'kullanici_id': kullanici._id})
+        .then(kullanicinin_kuponlari => {
+          console.log(kullanicinin_kuponlari)
+          res.json({"kuponlar": kullanicinin_kuponlari, "bakiye": kullanici.bakiye})
+          
+        })
         .catch(err => res.status(400).json('Hata; ' + err));
     })
     .catch(err => res.status(400).json('Hata; ' + err));

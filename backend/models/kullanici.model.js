@@ -11,6 +11,7 @@ const kullaniciSchema = new Schema({
   },
     sifre: {type: String, required: true},
     bakiye: {type: Number, requiered: true, default: 1000},
+    email: {type: String, requiered: true},
     yetki: {type: String, requiered: true, default: "uye"}
   },
     {timestamps: true}

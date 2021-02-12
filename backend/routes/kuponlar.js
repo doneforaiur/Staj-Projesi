@@ -99,7 +99,10 @@ router.route('/add').post((req,res) =>{
 
 router.route('/:id').get((req,res) => {
   Kupon.findById(req.params.id)
-    .then(kupon => res.json(kupon))
+    .then(kupon => {
+      if(kupon==null) res.json("Böyle bir kupon yok.")
+      else res.json(kupon)
+    })
     .catch(err => res.status(400).json('Hata; ' + err));
 });
 
@@ -107,7 +110,9 @@ router.route('/kullanici_kupon/:id').get((req,res) =>{
   // id, kullanici id'si
   var id = req.params.id;
   Kupon.find({kullanici_id:id}).sort({'createdAt':-1})
-    .then(kuponlar => res.json(kuponlar))
+    .then(kuponlar => {
+      if(kuponlar == null ) res.json("Kullanıcının hiç kuponu yok.")
+      else res.json(kuponlar)})
     .catch(err => res.status(400).json('Hata; ' + err));
 });
 

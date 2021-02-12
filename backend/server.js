@@ -45,7 +45,7 @@ const yorumlarRouter      = require('./routes/yorumlar');
 const loginRouter         = require('./routes/login');
 const signupRouter        = require('./routes/signup');
 
-app.use('/bahisler', authenticateJWT ,bahislerRouter);
+app.use('/bahisler',authenticateJWT ,bahislerRouter); // Anasayfada görülebilmesi için JWT yok
 app.use('/kullanicilar',authenticateJWT ,kullanicilarRouter);
 app.use('/kuponlar',authenticateJWT ,kuponlarRouter);
 app.use('/yorumlar',authenticateJWT ,yorumlarRouter);
