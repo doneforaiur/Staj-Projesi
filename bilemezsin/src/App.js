@@ -7,7 +7,7 @@ import BahisList from "./components/BahisList.component.js";
 import KullanicilarList from "./components/KullanicilarList.component";
 import Profil from "./components/Profil.component";
 import SignUp from "./components/Signup.component";
-
+import Login from "./components/Login.component";
 
 function App() {
   return (
@@ -16,7 +16,8 @@ function App() {
         <Navbar />
         <br/>
         <Route path="/" exact component={BahisList} />
-        <Route path="/signup" exact component={SignUp} />       
+        <Route path="/signup" exact component={SignUp} />
+        <Route path="/login" exact component={Login} />
        </div>
     </Router>
     

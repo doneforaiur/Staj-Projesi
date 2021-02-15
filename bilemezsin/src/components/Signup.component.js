@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+
 
 export default class SignUp extends Component {
 
@@ -8,7 +10,7 @@ export default class SignUp extends Component {
     this.onChangeKullaniciAdi = this.onChangeKullaniciAdi.bind(this);
     this.onChangeSifre = this.onChangeSifre.bind(this);
     this.onChangeEMail = this.onChangeEMail.bind(this);
-
+    this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
       kullanici_adi: "",
@@ -36,14 +38,17 @@ export default class SignUp extends Component {
   onSubmit(e) {
     e.preventDefault();
     const kullanici ={
-      kullanici_adi: this.kullanici_adi,
-      sifre: this.sifre,
-      email: this.email
+      kullanici_adi: this.state.kullanici_adi,
+      sifre: this.state.sifre,
+      email: this.state.email
     };
-
+ 
     console.log(kullanici);
 
-    window.location = "/";
+    axios.post('http://localhost:5000/signup', kullanici)
+      .then(res => console.log(res.data));
+
+    window.location = "/login";
 
   }
 
