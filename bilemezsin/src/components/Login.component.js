@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-
 export default class Login extends Component {
-
+  
+  
+  
   constructor(props){
     super(props);
     this.onChangeKullaniciAdi = this.onChangeKullaniciAdi.bind(this);
     this.onChangeSifre = this.onChangeSifre.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-
+  
     this.state = {
       kullanici_adi: "",
       sifre: "",
@@ -33,26 +34,23 @@ export default class Login extends Component {
       kullanici_adi: this.state.kullanici_adi,
       sifre: this.state.sifre
     };
- 
-    console.log(kullanici);
-
-    axios.post('http://localhost:5000/login', kullanici)
+    
+      axios.post('http://localhost:5000/login', kullanici)
       .then(res => {
-        if(res.status == 200){
-          
-          localStorage.setItem('Authorization', res.data.accesToken);
-          console.log(localStorage.getItem('Authorization'));
-        }
+        console.log(res.data.accessToken);
+        localStorage.setItem('Authorization', res.data.accessToken);
+      })
+      .catch(err => console.log(err));
 
 
-      });
-
-    //window.location = "/";
+    window.location = "/";
 
   }
 
 
   render() {
+
+      
     return (
       <div>
         <h3> Oturum Aç </h3>
@@ -83,3 +81,6 @@ export default class Login extends Component {
     );
   }
 }
+
+
+

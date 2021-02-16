@@ -16,6 +16,7 @@ router.route('/').post((req, res) => {
     console.log(kullanici);
     if (kullanici != null ) {
       const accessToken = jwt.sign({ kullanici_adi: kullanici.kullanici_adi,  yetki: kullanici.yetki }, accessTokenSecret);
+      console.log(accessToken);
       res.json({ accessToken });
   }
   else{
