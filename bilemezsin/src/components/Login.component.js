@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 export default class Login extends Component {
-  
-  
-  
   constructor(props){
     super(props);
     this.onChangeKullaniciAdi = this.onChangeKullaniciAdi.bind(this);
@@ -39,18 +36,13 @@ export default class Login extends Component {
       .then(res => {
         console.log(res.data.accessToken);
         localStorage.setItem('Authorization', res.data.accessToken);
+        window.location = "/";
       })
       .catch(err => console.log(err));
 
-
-    window.location = "/";
-
   }
 
-
   render() {
-
-      
     return (
       <div>
         <h3> Oturum Aç </h3>
