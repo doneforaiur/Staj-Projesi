@@ -7,6 +7,7 @@ const bahisSchema = new Schema({
   icerik:     {type: String, required: true, trim: true},
   baslangic:  {type: Date, required:true},
   bitis:      {type: Date, required:true},
+  gorsel_url: {type: String },
   oran: {
     tutar_oran:     {type: Number, default: 2},
     tutmaz_oran:    {type: Number, default: 2},

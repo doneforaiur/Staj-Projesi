@@ -41,6 +41,7 @@ router.route('/add').post((req,res) =>{
 });
 
 router.route('/:id').get((req,res) => {
+  console.log(req.params.id);
   Bahis.findById(req.params.id)
     .then(bahis => res.json(bahis))
     .catch(err => res.status(400).json('Hata; ' + err));

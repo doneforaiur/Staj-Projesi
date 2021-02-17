@@ -1,16 +1,16 @@
 import React, {  Component } from 'react';
 import axios from 'axios';
-import {  Card } from 'react-bootstrap';
 import "../bootstrap/css/bootstrap.min.css";
-
+import { Link } from 'react-router-dom';
 
 const Bahis = (props) => (
 <div className="card" style={{ width: 300, margin:10 }}>
   <img className="card-img-top" src="..." alt="Görsel" />
   <div className="card-body">
     <h5 className="card-title">{ props.bahis.baslik } </h5>
-    <p className="card-text">{ props.bahis.icerik }</p>
-    <a href="#" className="btn btn-secondary">Devamını oku.</a>
+    <p className="card-text">   { props.bahis.icerik.length > 60 ?
+     props.bahis.icerik.substring(0, 60) +"..." : props.bahis.icerik } </p>
+    <Link to={"/bahisler/" + props.bahis._id } className="btn btn-secondary">Devamını oku.</Link>
   </div>
 </div>
   )
@@ -46,8 +46,10 @@ export default class BahisList extends Component {
 
   render() {
     return (
-      <div className="d-flex flex-row"> 
-         { this.bahisList() }
+      <div className="container">
+        <div className="d-flex flex-row"> 
+          { this.bahisList() }
+        </div>
       </div>
     );
   }
