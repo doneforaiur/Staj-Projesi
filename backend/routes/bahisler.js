@@ -17,7 +17,6 @@ router.route('/sort').get((req, res) => {
 
 router.route('/add').post((req,res) =>{
   const { yetki } = req.user;
-  console.log(yetki);
   if (yetki != 'admin'){
     return res.sendStatus(403);
   }
@@ -41,7 +40,6 @@ router.route('/add').post((req,res) =>{
 });
 
 router.route('/:id').get((req,res) => {
-  console.log(req.params.id);
   Bahis.findById(req.params.id)
     .then(bahis => res.json(bahis))
     .catch(err => res.status(400).json('Hata; ' + err));

@@ -3,11 +3,37 @@ import axios from 'axios';
 import "../bootstrap/css/bootstrap.min.css";
 
 
-const BahisView = (props) => (
+const BahisView = (props) => {
+
+  var tempProps = {};
+  const date1 = new Date();
+  const date2 = new Date(props.bahis.baslangic);
+  const diffTime = Math.abs(date2 - date1);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+
+  if(diffDays < 2){
+    tempProps.display = "block";
+  }
+  else{
+    tempProps.display = "none";
+  }
+  
+return (
 
 <div>
 <div className="card bg-dark text-white" style={{ margin:10 }}>
   
+<div style={{display: tempProps.display, position: 'absolute', right: 5, top:5, margin: '0 auto'}}> 
+ <div className="card text-white bg-danger">
+  <div class="card-body" style={{  padding: 10, paddingRight: 15, paddingLeft: 15}}>
+  <i class="glyphicon glyphicon-cloud"></i>
+
+    <p class="card-title" style={{ marginBottom: 0 }}>YENİ</p>
+  </div>
+</div>
+  </div>
+
+
   <div style={{ height: 200, overflow: 'hidden'}}>
   <img className="card-img" src={props.bahis.gorsel_url}
      style={{ marginTop: -50 }}  alt="Card image" />
@@ -26,23 +52,22 @@ const BahisView = (props) => (
     <p className="card-text">  { props.bahis.icerik }  </p>
 <br/>
 <div className="progress">
-  <div className="progress-bar bg-success" role="progressbar" 
-    style={{ width:  ( 100 * props.bahis.oran.tutar_oynayan / (props.bahis.oran.tutmaz_oynayan + props.bahis.oran.tutar_oynayan))+"%" }} 
+  <div className="progress-bar progress-bar-striped progress-bar-animated  bg-success" role="progressbar" 
+    style={{ transform: 'rotate(180deg)', width:  ( 100 * props.bahis.oran.tutar_oynayan / (props.bahis.oran.tutmaz_oynayan + props.bahis.oran.tutar_oynayan))+"%" }} 
     aria-valuenow={  100 *props.bahis.oran.tutar_oynayan / (props.bahis.oran.tutmaz_oynayan + props.bahis.oran.tutar_oynayan) } 
-    aria-valuemin="0" aria-valuemax="100">
+    aria-valuemin="0" aria-valuemax="100"> <div style={{transform: 'rotate(180deg)'}}>TUTAR </div>
     </div>
   
-  <div className="progress-bar bg-danger" role="progressbar" 
-    style={{ width:  100 * props.bahis.oran.tutmaz_oynayan / (props.bahis.oran.tutmaz_oynayan + props.bahis.oran.tutar_oynayan)+"%" }} 
+  <div className="progress-bar progress-bar-striped progress-bar-animated  bg-danger" role="progressbar" 
+    style={{  width:  100 * props.bahis.oran.tutmaz_oynayan / (props.bahis.oran.tutmaz_oynayan + props.bahis.oran.tutar_oynayan)+"%" }} 
     aria-valuenow={ 100 *  props.bahis.oran.tutmaz_oynayan / (props.bahis.oran.tutmaz_oynayan + props.bahis.oran.tutar_oynayan) } 
-    aria-valuemin="0" aria-valuemax="100">
-
-  </div>
+    aria-valuemin="0" aria-valuemax="100"> TUTMAZ
+    </div>
 
 </div>
 <br/>
-    <a href="#" className="btn btn-secondary">EVET ({props.bahis.oran.tutar_oran.toFixed(2)})</a>
-    <a href="#" className="btn btn-secondary">HAYIR ({props.bahis.oran.tutmaz_oran.toFixed(2)})</a>
+    <a href="#" className="btn btn-success">EVET ({props.bahis.oran.tutar_oran.toFixed(2)})</a>
+    <a href="#" className="btn btn-danger">HAYIR ({props.bahis.oran.tutmaz_oran.toFixed(2)})</a>
   </div>
 </div>
 
@@ -50,17 +75,14 @@ const BahisView = (props) => (
 </div>
 
   )
-
+}
 const YorumlarView = (props) => (
   <div className="card">
   <div className="card-body">
-    { props.yorum.icerik } <b> {props.yorum.kullanici_adi} </b> </div>
+  <b> {props.yorum.kullanici_adi}  </b> yazmış;
+  <br />
+    { props.yorum.icerik } </div>
 </div>
-
-
-
-
-
 )
 
 
@@ -93,14 +115,14 @@ export default class Bahis extends Component {
     axios.defaults.headers.common['Authorization'] = "Bearer " + jwtToken;
     var bahis_id = this.props.match.params.id;
     console.log(bahis_id);
-    axios.get('http://localhost:5000/bahisler/' + bahis_id)
+    axios.get('http://94.54.82.97:5000/bahisler/' + bahis_id)
     .then(res => {
       this.setState({bahis: res.data});
       console.log(this.state);
     })
     .catch(err => console.log(err));
 
-    axios.get('http://localhost:5000/yorumlar/' + bahis_id)
+    axios.get('http://94.54.82.97:5000/yorumlar/' + bahis_id)
     .then(res => {
       console.log(res);
       this.setState({yorumlar: res.data});
@@ -127,7 +149,8 @@ export default class Bahis extends Component {
          </div>
       </div>
 
-      <div>
+      <div style={{ margin: 30 }}>
+        YORUMLAR;
         { this.yorumlarList() }
 
       </div>

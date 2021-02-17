@@ -5,25 +5,37 @@ export default class Navbar extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
-        <Link to="/" className="navbar-brand">Bilemezsin</Link>
-        <div className="collapse navbar-collapse">
-          <ul className="navbar-nav mr-auto">
-            <li className="navbar-item">
-              <Link to="/" className="nav-link">Bahisler</Link>
+<nav className="navbar navbar-expand-md navbar-dark bg-danger">
+    <div className="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <Link class="nav-link" to="/">Bahisler</Link>
             </li>
-            <li className="navbar-item">
-              <Link to="/kullanicilar" className="nav-link"> Kullanıcılar </Link>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Kullanıcılar</a>
             </li>
-            <li className="navbar-item">
-              <Link to="/kullanicilar/:id" className="nav-link"> Profilim </Link>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Kuponlarım</a>
             </li>
-            <li className="navbar-item">
-              <Link to="/signup" className="nav-link"> Signup </Link>
+        </ul>
+    </div>
+    <div class="mx-auto order-0">
+        <a class="navbar-brand mx-auto" href="#">Bilemezsin</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">(Kullanıcı adı)</a>
             </li>
-          </ul>
-        </div>
-      </nav>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Çıkış</a>
+            </li>
+        </ul>
+    </div>
+</nav>
     );
   }
 }

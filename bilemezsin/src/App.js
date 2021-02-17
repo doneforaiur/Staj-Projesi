@@ -13,10 +13,10 @@ import Bahis from "./components/Bahis.component";
 
 
 function App() {
-  
+  document.body.style = 'background: #e4e4e442'
   return (
     <Router>
-        <Navbar />
+        <Navbar  />
         <br/>
         <Route path="/" exact  component={BahisList} />
         <Route path="/signup" exact component={SignUp} />
