@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const Bahis = (props) => (
 <div className="card" style={{ width: 300, margin:10 }}>
-  <img className="card-img-top" src="..." alt="Görsel" />
+  <img className="card-img-top" src={ props.bahis.gorsel_url } alt="Görsel" />
   <div className="card-body">
     <h5 className="card-title">{ props.bahis.baslik } </h5>
     <p className="card-text">   { props.bahis.icerik.length > 60 ?

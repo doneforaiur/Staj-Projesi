@@ -21,11 +21,9 @@ const BahisView = (props) => (
   </div>
 </div>
 
-
-
 <div className="card" style={{  margin:20 }}>
   <div className="card-body">
-    <p className="card-text">  { props.bahis.icerik }  { ( 100 * props.bahis.oran.tutar_oynayan / (props.bahis.oran.tutmaz_oynayan + props.bahis.oran.tutar_oynayan))  } </p>
+    <p className="card-text">  { props.bahis.icerik }  </p>
 <br/>
 <div className="progress">
   <div className="progress-bar bg-success" role="progressbar" 
@@ -43,8 +41,8 @@ const BahisView = (props) => (
 
 </div>
 <br/>
-    <a href="#" className="btn btn-secondary">EVET</a>
-    <a href="#" className="btn btn-secondary">HAYIR</a>
+    <a href="#" className="btn btn-secondary">EVET ({props.bahis.oran.tutar_oran.toFixed(2)})</a>
+    <a href="#" className="btn btn-secondary">HAYIR ({props.bahis.oran.tutmaz_oran.toFixed(2)})</a>
   </div>
 </div>
 
@@ -52,6 +50,18 @@ const BahisView = (props) => (
 </div>
 
   )
+
+const YorumlarView = (props) => (
+  <div className="card">
+  <div className="card-body">
+    { props.yorum.icerik } <b> {props.yorum.kullanici_adi} </b> </div>
+</div>
+
+
+
+
+
+)
 
 
 export default class Bahis extends Component {
@@ -69,7 +79,12 @@ export default class Bahis extends Component {
           tutar_oran: 1,
           tutmaz_oran: 1
         }
-      }
+      },
+      yorumlar: [{
+        icerik: "",
+        kullanici_id: "",
+        begeni_sayisi: 0,
+      }]
     }
   }
 
@@ -80,15 +95,27 @@ export default class Bahis extends Component {
     console.log(bahis_id);
     axios.get('http://localhost:5000/bahisler/' + bahis_id)
     .then(res => {
-      console.log(res.data.oran);
       this.setState({bahis: res.data});
       console.log(this.state);
+    })
+    .catch(err => console.log(err));
+
+    axios.get('http://localhost:5000/yorumlar/' + bahis_id)
+    .then(res => {
+      console.log(res);
+      this.setState({yorumlar: res.data});
     })
     .catch(err => console.log(err));
   }
 
   bahisList() {
       return <BahisView bahis={this.state.bahis} />;
+  }
+
+  yorumlarList() {
+    return this.state.yorumlar.map(yorum => {
+      return <YorumlarView yorum={yorum} key={yorum._id}/>;
+    })
   }
 
   render() {
@@ -99,6 +126,12 @@ export default class Bahis extends Component {
          { this.bahisList() }
          </div>
       </div>
+
+      <div>
+        { this.yorumlarList() }
+
+      </div>
+
     </div>
     );
   }

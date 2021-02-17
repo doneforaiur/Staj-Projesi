@@ -10,19 +10,21 @@ router.route('/').get((req, res) => {
 
 
 router.route('/:id').get((req,res) => {
-  Bahis.findById(req.params.id)
+  Yorum.find({bahis_id: req.params.id})
     .then(yorum => res.json(yorum))
     .catch(err => res.status(400).json('Hata; ' + err));
 });
 
 router.route('/add').post((req,res) =>{
   const icerik    = req.body.icerik;
-  const kullanici_id    = req.body.kullanici_id;
+  const kullanici_id    = req.user.kullanici_id;
+  const kullanici_adi = req.user.kullanici_adi;
   const bahis_id = req.body.bahis_id;
 
   const yeniYorum = new Yorum({
     icerik,
     kullanici_id,
+    kullanici_adi,
     bahis_id,
   });
 

@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 
 const yorumSchema = new Schema({
   icerik: {type: String, trim: true},
-  kullanici_id: {type: String},
+  kullanici_id: {type: String, requiered: true},
+  kullanici_adi: {type: String, requiered: true},
   bahis_id: {type: String},
   begeni_sayisi: {type: Number, default: 0},
   begenenler: [{type: String}]
