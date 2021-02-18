@@ -4,18 +4,24 @@ import "../bootstrap/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 
 var bahisiSil = (bahis) => {
-  console.log(bahis);
+  var kupon = JSON.parse(localStorage.getItem("kupon"));
+  kupon = kupon.map((local_bahis) => {
+    if (local_bahis.bahis_id != bahis) return local_bahis;
+  });
+  if (kupon.length) localStorage.removeItem("kupon");
+  else localStorage.setItem("kupon", JSON.stringify(kupon));
+
 };
 
 const Bahis = (props) => {
   return (
-    <div class="card mb-1" style={{alignSelf: 'center', width: '600px'}}>
+    <div class="card mb-1" style={{ alignSelf: "center", width: "600px" }}>
       <div class="col-md-8">
         <div class="card-body">
           <h5 class="card-title">{props.bahis.baslik}</h5>
           <p class="card-text">{props.bahis.tahmin}</p>
           <button
-            style={{ position: 'absolute', right: -100, top: 10 }}
+            style={{ position: "absolute", right: -100, top: 10 }}
             className="btn btn-danger"
             onClick={() => bahisiSil(props.bahis.bahis_id)}
           >
@@ -28,29 +34,41 @@ const Bahis = (props) => {
 };
 
 export default class Kuponum extends Component {
-  kuponuOyna() {
-    var jwtToken = localStorage.getItem("Authorization");
-    axios.defaults.headers.common["Authorization"] = "Bearer " + jwtToken;
-    axios
-      .get("http://94.54.82.97:5000/bahisler")
-      .then((res) => {
-        console.log(res);
-        this.setState({ bahisler: res.data });
-        console.log(this.state);
-      })
-      .catch((err) => console.log(err));
-  }
-
   constructor(props) {
     super(props);
+    this.kuponuOyna = this.kuponuOyna.bind(this);
+
     this.state = {
       bahisler: [
         {
           bahis_id: "",
           tahmin: "",
+          gorsel_url: "",
+          baslik: "",
         },
       ],
+      tutar: 50,
     };
+  }
+  kuponuOyna(e) {
+    e.preventDefault();
+    var jwtToken = localStorage.getItem("Authorization");
+    axios.defaults.headers.common["Authorization"] = "Bearer " + jwtToken;
+    var bahisler = this.state.bahisler.map((bahis) => {
+      return { id: bahis.bahis_id, tahmin: bahis.tahmin };
+    });
+
+    var kupon = { kupon: bahisler, tutar: this.state.tutar };
+    console.log(kupon);
+    axios
+      .post("http://94.54.82.97:5000/kuponlar/add", kupon)
+      .then((res) => {
+        if (res.status == 200) {
+          localStorage.removeItem("kupon");
+          window.location = "/";
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
   componentDidMount() {
@@ -61,24 +79,24 @@ export default class Kuponum extends Component {
     this.setState({ bahisler: kupon });
   }
 
-  bahisList() {
+  kuponBahisList() {
     if (this.state.bahisler == null) {
       return (
         <div>
-          {" "}
-          <h1 style={{ align: "center" }}> Kuponunuz boş. </h1>{" "}
+          <h1 style={{ align: "center" }}> Kuponunuz boş. </h1>
         </div>
       );
+    } else {
+      return this.state.bahisler.map((bahis) => {
+        return <Bahis bahis={bahis} key={bahis.bahis_id} />;
+      });
     }
-    return this.state.bahisler.map((bahis) => {
-      return <Bahis bahis={bahis} key={bahis.bahis_id} />;
-    });
   }
 
   render() {
     return (
       <div className="container">
-        <div className="d-flex flex-column">{this.bahisList()}</div>
+        <div className="d-flex flex-column">{this.kuponBahisList()}</div>
       </div>
     );
   }

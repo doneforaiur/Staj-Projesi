@@ -13,9 +13,12 @@ router.route('/').get((req, res) => {
 
 router.route('/add').post((req,res) =>{
   const {kullanici_adi} = req.user;
-  console.log(kullanici_adi);
+
+  console.log("Kupon eklenecek; "+ req.body.kupon);
   const tutar = req.body.tutar;
   const kupon = req.body.kupon;
+
+  console.log(tutar, kupon);
   ids = kupon.map(({ id }) => id);
 // ids, kupona eklenecek bütün bahislerin id arrayi
   var kullanici_id = undefined;
