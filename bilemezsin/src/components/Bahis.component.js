@@ -2,6 +2,29 @@ import React, {  Component } from 'react';
 import axios from 'axios';
 import "../bootstrap/css/bootstrap.min.css";
 
+var kuponaEkle = (tahmin, bahis_id, baslik, gorsel_url) => {
+  console.log(tahmin, bahis_id);
+  var kupon = JSON.parse(localStorage.getItem("kupon"));
+  if(kupon == null) kupon = [];
+  else{
+    for(var i=0; i <kupon.length; i++){
+      if(kupon[i].bahis_id === bahis_id){
+        console.log("Bahis kupona eklenmiş.");
+        return;
+      } 
+    }
+  }
+
+  var kupon_bahis = {
+    bahis_id: bahis_id,
+    tahmin: tahmin,
+    baslik: baslik,
+    gorsel_url: gorsel_url
+  }
+  kupon.push(kupon_bahis);
+  localStorage.setItem("kupon", JSON.stringify(kupon));
+
+}
 
 const BahisView = (props) => {
 
@@ -35,8 +58,7 @@ return (
 
 
   <div style={{ height: 200, overflow: 'hidden'}}>
-  <img className="card-img" src={props.bahis.gorsel_url}
-     style={{ marginTop: -50 }}  alt="Card image" />
+  <img className="card-img" src={props.bahis.gorsel_url} style={{ marginTop: -50 }}/>
   </div>
   
   <div className="card-img-overlay">
@@ -66,8 +88,8 @@ return (
 
 </div>
 <br/>
-    <a href="#" className="btn btn-success">EVET ({props.bahis.oran.tutar_oran.toFixed(2)})</a>
-    <a href="#" className="btn btn-danger">HAYIR ({props.bahis.oran.tutmaz_oran.toFixed(2)})</a>
+    <button onClick={() => kuponaEkle("tutar", props.bahis._id, props.bahis.baslik, props.bahis.gorsel_url)} className="btn btn-success">EVET ({props.bahis.oran.tutar_oran.toFixed(2)})</button>
+    <button onClick={() => kuponaEkle("tutmaz", props.bahis._id, props.bahis.baslik, props.bahis.gorsel_url)} className="btn btn-danger">HAYIR ({props.bahis.oran.tutmaz_oran.toFixed(2)})</button>
   </div>
 </div>
 
@@ -90,6 +112,7 @@ export default class Bahis extends Component {
   
   constructor(props){
     super(props);
+
     this.state = {
       bahis: {
         icerik: "",

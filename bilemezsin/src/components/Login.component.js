@@ -36,6 +36,7 @@ export default class Login extends Component {
       .then(res => {
         console.log(res.data.accessToken);
         localStorage.setItem('Authorization', res.data.accessToken);
+        localStorage.setItem('kullanici_adi', this.state.kullanici_adi);
         window.location = "/";
       })
       .catch(err => console.log(err));
