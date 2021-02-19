@@ -2,15 +2,21 @@ import React, { useState, useContext, useEffect } from "react";
 import { KuponContext } from "../context/KullaniciContext";
 import axios from "axios";
 
-const YorumlarView = (props) => (
-  <div className="card">
-    <div className="card-body">
+const YorumlarView = (props) => {
+
+
+return (
+
+  <div style={{padding:10, background: 'smokewhite' }} className="card">
+    <div style={{padding:10}} className="card-body">
       <b> {props.yorum.kullanici_adi} </b> yazmış;
       <br />
-      {props.yorum.icerik}{" "}
+      {props.yorum.icerik}
     </div>
+
   </div>
-);
+
+)};
 
 const Bahis = (props) => {
   const [bahis, setBahis] = useState({
@@ -42,6 +48,32 @@ const Bahis = (props) => {
     console.log(kupon);
   };
 
+  const [yorumum, setYorumum] = useState("");
+
+  const onSubmit = (e,props) => {
+    e.preventDefault();
+    console.log(yorumum);
+    console.log(e);
+    axios.defaults.headers.common["Authorization"] =
+      "Bearer " + localStorage.getItem("Authorization");
+
+    var _yorum = {
+      icerik: yorumum, 
+        bahis_id: props.match.params.id
+    }
+    axios
+      .post("http://94.54.82.97:5000/yorumlar/add", _yorum)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+
+  }
+  
+  const onYorumChange = (e) => {
+    setYorumum(e.target.value);
+  }
+
   useEffect(() => {
     axios.defaults.headers.common["Authorization"] =
       "Bearer " + localStorage.getItem("Authorization");
@@ -66,7 +98,7 @@ const Bahis = (props) => {
   );
 
   return bahis.baslik.length <= 0 ? (
-    <p>Loading</p>
+    <></>
   ) : (
     <div>
       <div className="card bg-dark text-white" style={{ margin: 10 }}>
@@ -74,7 +106,8 @@ const Bahis = (props) => {
           <img
             className="card-img"
             src={bahis.gorsel_url}
-            style={{ marginTop: -50 }} alt="Görsel"
+            style={{ marginTop: -50 }}
+            alt="Görsel"
           />
         </div>
 
@@ -157,6 +190,30 @@ const Bahis = (props) => {
       ) : (
         <div></div>
       )}
+
+
+<div>
+        <h3> Yorum Yap </h3>
+        <form onSubmit={(e) => onSubmit(e,props)}>
+          <div className="form-group">
+            <label>Yorumunuz; </label>
+            <input type="text"
+              required
+              className="form-control"
+              value={yorumum}
+              onChange={onYorumChange} 
+              />
+
+          </div>
+          <div className="form-group">
+            <input type="submit" value="Yorumu yap" 
+                className="btn btn-primary" />
+          </div>
+        </form>
+      </div>
+
+
+
     </div>
   );
 };

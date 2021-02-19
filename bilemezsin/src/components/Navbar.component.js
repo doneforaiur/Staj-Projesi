@@ -1,15 +1,11 @@
 import React, { Component, useContext } from "react";
 import { Link } from "react-router-dom";
 import { KuponContext } from "../context/KullaniciContext.js";
+import Dropdown from 'react-dropdown';
+//import 'react-dropdown/style.css';
 
-const kuponKontrol = () => {
-  var kupon = JSON.parse(localStorage.getItem("kupon"));
-  var kullanici_adi = localStorage.getItem("kullanici_adi");
-  if (kupon != null) var len = kupon.length;
-  else var len = 0;
-  console.log(kupon);
-  return { kupon: kupon, len: len, kullanici_adi: kullanici_adi };
-};
+
+
 
 const Navbar = (props) => {
   const [kupon, setKupon, kullanici_adi, setKullaniciAdi] = useContext(
@@ -60,33 +56,7 @@ const Navbar = (props) => {
               Kupon ({kupon.length}){" "}
             </Link>
           </li>
-          <li class="nav-item dropdown">
-            <a
-              className="nav-link dropdown-toggle"
-              href="#"
-              id="navbarDropdownMenuLink"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <b>{kullanici_adi}</b>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">
-                Action
-              </a>
-              <a class="dropdown-item" href="#">
-                Another action
-              </a>
-              <a class="dropdown-item" href="#">
-                Something else here
-              </a>
-
-              <Link class="nav-link" to="/logout">
-                Çıkış
-              </Link>
-            </div>
-          </li>
+         <Dropdown options={[kullanici_adi, 'Ayarlar', 'Çıkış']} value={kullanici_adi}  />
         </ul>
       </div>
     </nav>
