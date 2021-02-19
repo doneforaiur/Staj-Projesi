@@ -13,7 +13,6 @@ router.route('/').get((req, res) => {
 
 router.route('/add').post((req,res) =>{
   const {kullanici_adi} = req.user;
-
   console.log("Kupon eklenecek; "+ req.body.kupon);
   const tutar = req.body.tutar;
   const kupon = req.body.kupon;

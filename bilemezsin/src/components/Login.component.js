@@ -1,67 +1,59 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useContext } from 'react';
 import axios from 'axios';
+import {KuponContext} from '../context/KullaniciContext';
 
-export default class Login extends Component {
-  constructor(props){
-    super(props);
-    this.onChangeKullaniciAdi = this.onChangeKullaniciAdi.bind(this);
-    this.onChangeSifre = this.onChangeSifre.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+
+const Login = () => {
   
-    this.state = {
-      kullanici_adi: "",
-      sifre: "",
-    }
+  const [kupon, setKupon, kullanici_adi, setKullaniciAdi] = useContext(KuponContext);
+    const [sifre, setSifre] = useState("");
+    const [temp_name, setTempName] = useState("");
+
+  const onChangeKullaniciAdi = (e) => {
+      setTempName(e.target.value)
+  };
+  const onChangeSifre = (e) => {
+    setSifre(e.target.value);
   };
 
-  onChangeKullaniciAdi(e) {
-      this.setState({
-        kullanici_adi: e.target.value
-      })
-  };
-  onChangeSifre(e) {
-    this.setState({
-      sifre: e.target.value
-    })
-  };
-
-  onSubmit(e) {
+  const onSubmit = (e) => {
     e.preventDefault();
     const kullanici ={
-      kullanici_adi: this.state.kullanici_adi,
-      sifre: this.state.sifre
+      kullanici_adi: temp_name,
+      sifre: sifre
     };
     
       axios.post('http://94.54.82.97:5000/login', kullanici)
       .then(res => {
         console.log(res.data.accessToken);
         localStorage.setItem('Authorization', res.data.accessToken);
-        localStorage.setItem('kullanici_adi', this.state.kullanici_adi);
-        window.location = "/";
+        localStorage.setItem('kullanici_adi', temp_name);
+        setKullaniciAdi(temp_name);
+        //window.location = "/";
       })
       .catch(err => console.log(err));
 
   }
 
-  render() {
+
     return (
       <div>
         <h3> Oturum Aç </h3>
-        <form onSubmit={this.onSubmit}>
+        <form onSubmit={onSubmit}>
           <div className="form-group">
             <label>Kullanıcı adı:</label>
             <input type="text"
               required
               className="form-control"
-              value={this.state.kullanici_adi}
-              onChange={this.onChangeKullaniciAdi} 
+              value={kullanici_adi}
+              onChange={onChangeKullaniciAdi} 
               />
               <label>Şifre:</label>
               <input type="text"
               required
               className="form-control"
-              value={this.state.sifre}
-              onChange={this.onChangeSifre} 
+              value={sifre}
+              onChange={onChangeSifre} 
               /> 
           </div>
           <div className="form-group">
@@ -72,8 +64,9 @@ export default class Login extends Component {
       </div>
 
     );
-  }
+ 
 }
 
+export default Login;
 
 

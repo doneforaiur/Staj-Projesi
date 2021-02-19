@@ -1,29 +1,34 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import axios from "axios";
 import "../bootstrap/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 
-var bahisiSil = (bahis) => {
-  var kupon = JSON.parse(localStorage.getItem("kupon"));
-  kupon = kupon.map((local_bahis) => {
-    if (local_bahis.bahis_id != bahis) return local_bahis;
-  });
-  if (kupon.length) localStorage.removeItem("kupon");
-  else localStorage.setItem("kupon", JSON.stringify(kupon));
+import {KuponContext} from '../context/KullaniciContext.js'
 
+
+const BahisiSil = (bahis) => {
+  //const [kupon, setKupon,kullanici_adi, setKullaniciAdi] = useContext(KuponContext);
+
+  console.log(bahis);
+  //var yeni_kupon = kupon.map((_bahis) => {
+  //  if(_bahis._id != bahis._id) return _bahis
+  //})
+  //setKupon(yeni_kupon);
 };
 
+
 const Bahis = (props) => {
+  
   return (
     <div class="card mb-1" style={{ alignSelf: "center", width: "600px" }}>
       <div class="col-md-8">
         <div class="card-body">
-          <h5 class="card-title">{props.bahis.baslik}</h5>
+          <h5 class="card-title">{props.bahis.baslik}  </h5>
           <p class="card-text">{props.bahis.tahmin}</p>
           <button
             style={{ position: "absolute", right: -100, top: 10 }}
             className="btn btn-danger"
-            onClick={() => bahisiSil(props.bahis.bahis_id)}
+            onClick={() => BahisiSil(props.bahis)}
           >
             X
           </button>
@@ -33,71 +38,52 @@ const Bahis = (props) => {
   );
 };
 
-export default class Kuponum extends Component {
-  constructor(props) {
-    super(props);
-    this.kuponuOyna = this.kuponuOyna.bind(this);
+const Kuponum = ()  =>{ 
+  const [kupon, setKupon,kullanici_adi, setKullaniciAdi] = useContext(KuponContext);
+  console.log(kupon);
 
-    this.state = {
-      bahisler: [
-        {
-          bahis_id: "",
-          tahmin: "",
-          gorsel_url: "",
-          baslik: "",
-        },
-      ],
-      tutar: 50,
-    };
-  }
-  kuponuOyna(e) {
+
+  const kuponuOyna = (e,kupon) => {
     e.preventDefault();
     var jwtToken = localStorage.getItem("Authorization");
     axios.defaults.headers.common["Authorization"] = "Bearer " + jwtToken;
-    var bahisler = this.state.bahisler.map((bahis) => {
-      return { id: bahis.bahis_id, tahmin: bahis.tahmin };
+    var bahisler = kupon.map((bahis) => {
+      return { id: bahis._id, tahmin: bahis.tahmin };
     });
 
-    var kupon = { kupon: bahisler, tutar: this.state.tutar };
+    var kupon = { kupon: bahisler, tutar: 50 };
     console.log(kupon);
     axios
       .post("http://94.54.82.97:5000/kuponlar/add", kupon)
       .then((res) => {
         if (res.status == 200) {
-          localStorage.removeItem("kupon");
+          setKupon([]);
           window.location = "/";
         }
       })
       .catch((err) => console.log(err));
   }
 
-  componentDidMount() {
-    var kupon = JSON.parse(localStorage.getItem("kupon"));
-    if (kupon != null) var len = kupon.length;
-    else var len = 0;
-    console.log(kupon);
-    this.setState({ bahisler: kupon });
-  }
-
-  kuponBahisList() {
-    if (this.state.bahisler == null) {
+  const kuponBahisList = () => {
+    if (kupon.length == 0) {
       return (
         <div>
           <h1 style={{ align: "center" }}> Kuponunuz boş. </h1>
         </div>
       );
     } else {
-      return this.state.bahisler.map((bahis) => {
-        return <Bahis bahis={bahis} key={bahis.bahis_id} />;
-      });
+      return [kupon.map((bahis) => {
+        return <Bahis bahis={bahis} key={bahis._id} />;
+      }),<div style={{width: 300, alignSelf: 'center'}}> <button className="btn btn-success" onClick={(e) => kuponuOyna(e, kupon)}> Kuponu onayla </button> </div> ]  ;
     }
   }
-
-  render() {
+    
     return (
       <div className="container">
-        <div className="d-flex flex-column">{this.kuponBahisList()}</div>
+
+        <div className="d-flex flex-column">{kuponBahisList()}</div>
       </div>
     );
   }
-}
+
+export default Kuponum;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import {  BrowserRouter as Router, Route } from 'react-router-dom';
 import "./bootstrap/css/bootstrap.min.css";
 
@@ -12,11 +12,15 @@ import Login from "./components/Login.component";
 import Bahis from "./components/Bahis.component";
 import Kuponum from "./components/Kuponum.component";
 
+import {KuponProvider} from './context/KullaniciContext.js'
+
+
 function App() {
   document.body.style = 'background: whitesmoke';
-  var kupon = JSON.parse(localStorage.getItem("kupon"));
+
 
   return (
+    <KuponProvider>
     <Router>
         <Navbar />
         <br/>
@@ -24,9 +28,9 @@ function App() {
         <Route path="/signup" exact component={SignUp} />
         <Route path="/login" exact component={Login} />
         <Route path="/bahisler/:id" exact component={Bahis} />
-        <Route path="/kuponum" exact component={Kuponum} kupon={kupon} />
+        <Route path="/kuponum" exact component={Kuponum} />
     </Router>
-    
+    </KuponProvider>
   );
 }
 
