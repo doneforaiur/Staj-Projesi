@@ -44,6 +44,14 @@ const Bahis = (props) => {
 
   const kuponaEkle = (tahmin, bahis) => {
     bahis["tahmin"] = tahmin;
+    var index = kupon.findIndex(function(item, i){
+      return item._id === bahis._id;
+    });
+    if(index > -1){
+      alert("Bir bahise sadece bir tahmin yapabilirsiniz.");
+      return
+    }
+
     setKupon([...kupon, bahis]);
     console.log(kupon);
   };

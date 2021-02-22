@@ -57,7 +57,7 @@ export default class SignUp extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{margin: '0 auto', width: 400}}>
         <h3> Kayıt Ol </h3>
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
