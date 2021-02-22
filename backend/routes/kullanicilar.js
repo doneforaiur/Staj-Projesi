@@ -8,7 +8,6 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Hata; ' + err));
 });
 
-
 // Kullanıcının id'si ile değil kullanıcı adı ile aranacak
 // oynadığı bütün kuponlar ve bakiyesi görünecek?
 router.route('/:id').get((req,res) => {

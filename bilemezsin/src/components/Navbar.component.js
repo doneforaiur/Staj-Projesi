@@ -1,8 +1,8 @@
-import React, { Component, useState, useContext } from "react";
+import React, {  useEffect,useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { KuponContext } from "../context/KullaniciContext.js";
-import Dropdown from "react-dropdown";
-import SlidingPanel from "react-sliding-side-panel";
+import axios from 'axios';
+
 
 const Navbar = (props) => {
   const [
@@ -15,6 +15,24 @@ const Navbar = (props) => {
     kullaniciAyar,
     setKullaniciAyar,
   ] = useContext(KuponContext);
+
+  const [bakiye, setBakiye] = useState(0);
+
+  useEffect(() => {
+
+    axios.defaults.headers.common["Authorization"] =
+    "Bearer " + localStorage.getItem("Authorization");
+
+    axios
+      .get("http://94.54.82.97:5000/kullanicilar/" + kullanici_adi)
+      .then((res) => {
+        if (res.status == 200) {
+          setBakiye(res.data.bakiye); 
+        }
+      })
+      .catch((err) => console.log(err));
+
+  }, [kullanici_adi]);
 
   setKullaniciAdi(localStorage.getItem("kullanici_adi"));
 
@@ -55,6 +73,14 @@ const Navbar = (props) => {
         </div>
         <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
           <ul class="navbar-nav ml-auto">
+          <li className="nav-item">
+              <a className="nav-link">Bakiye; {bakiye} BP</a>
+            </li>
+
+
+
+
+
             <li className="nav-item">
               <a
                 href="#"

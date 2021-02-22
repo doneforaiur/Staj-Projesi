@@ -67,7 +67,7 @@ function App() {
         <Route path="/signup" exact component={SignUp} />
         <Route path="/login" exact component={Login} />
         <Route path="/bahisler/:id" exact component={Bahis} />
-        <Route path="/kuponum" exact component={Kuponum} />
+        {/* <Route path="/kuponum" exact component={Kuponum} /> */}
       </Router>
     </>
   );

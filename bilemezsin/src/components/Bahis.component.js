@@ -3,8 +3,6 @@ import { KuponContext } from "../context/KullaniciContext";
 import axios from "axios";
 
 const YorumlarView = (props) => {
-
-
 return (
 
   <div style={{padding:10, background: 'smokewhite' }} className="card">
@@ -60,8 +58,6 @@ const Bahis = (props) => {
 
   const onSubmit = (e,props) => {
     e.preventDefault();
-    console.log(yorumum);
-    console.log(e);
     axios.defaults.headers.common["Authorization"] =
       "Bearer " + localStorage.getItem("Authorization");
 
@@ -73,6 +69,7 @@ const Bahis = (props) => {
       .post("http://94.54.82.97:5000/yorumlar/add", _yorum)
       .then((res) => {
         console.log(res.data);
+        window.location = "/bahisler/"+props.match.params.id;
       })
       .catch((err) => console.log(err));
 
@@ -193,7 +190,8 @@ const Bahis = (props) => {
 
       {yorumlar.length > 0 ? (
         yorumlar.map((yorum) => {
-          return <YorumlarView yorum={yorum} key={yorum._id} />;
+          console.log(yorum._id)
+          return <YorumlarView key={yorum._id} yorum={yorum}  />;
         })
       ) : (
         <div></div>

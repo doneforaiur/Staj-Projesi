@@ -1,13 +1,14 @@
-import React, { Component, useState, useContext } from "react";
+import React, {  useState, useContext } from "react";
 import axios from "axios";
 import { KuponContext } from "../context/KullaniciContext";
+import { useHistory} from 'react-router-dom';
 
-const Login = () => {
-  const [kupon, setKupon, kullanici_adi, setKullaniciAdi] = useContext(
-    KuponContext
-  );
+function Login() {
+
+  const [kupon, setKupon, kullanici_adi, setKullaniciAdi] = useContext(KuponContext);
   const [sifre, setSifre] = useState("");
   const [temp_name, setTempName] = useState("");
+
 
   const onChangeKullaniciAdi = (e) => {
     setTempName(e.target.value);
@@ -15,8 +16,8 @@ const Login = () => {
   const onChangeSifre = (e) => {
     setSifre(e.target.value);
   };
-
   const onSubmit = (e) => {
+
     e.preventDefault();
     const kullanici = {
       kullanici_adi: temp_name,

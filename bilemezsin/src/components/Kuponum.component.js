@@ -73,11 +73,11 @@ const Kuponum = () => {
         <div className="container" style={{ padding: "auto" }}>
           <h2 style={{ color: "red" }}>Kuponum</h2>{" "}
         </div>,
-        kupon.map((bahis) => {
+        kupon.map((_bahis) => {
           return (
             <Bahis
-              bahis={bahis}
-              key={bahis._id}
+              key={_bahis._id}
+              bahis={_bahis}
               kupon_func={kupon}
               bahisiSil={(a) => setKupon(a)}
             />
