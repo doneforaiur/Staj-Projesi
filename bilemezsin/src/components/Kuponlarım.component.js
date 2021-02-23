@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { KuponContext } from "../context/KullaniciContext";
+import { Link, Redirect } from "react-router-dom";
+
 
 const KupondakiBahis = (props) => {
   let tahmin = props.bahis.tahmin;
@@ -8,14 +10,24 @@ const KupondakiBahis = (props) => {
   else tahmin = "btn-outline-danger";
 
   return (
-    <div>
-      <p>
+    <div style={{margin: '0 10 0 0'}} className="container">
+      <div  className="row">
+    <Link to={"/bahisler/" + props.bahis.id } className="btn btn-secondary col-8" >
         {props.bahis.baslik}
-        <button className={"btn " + tahmin}>
+    </Link>
+    <div className="col-2" >
+    
+        <button style={{ minWidth: "100%"}} className={"btn " + tahmin}>
           {props.bahis.tahmin.toUpperCase()}
         </button>
-        Oran; {props.bahis.oran.toFixed(2)}
-      </p>
+        </div>
+        <div className="col-1" >
+        <button style={{minWidth: "100%"}}className={"btn btn-warning"}>
+        
+          {props.bahis.oran.toFixed(2)}
+        </button>
+    </div>
+    </div>
     </div>
   );
 };

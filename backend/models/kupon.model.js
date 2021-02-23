@@ -12,7 +12,9 @@ const kuponSchema = new Schema({
       }],
   tutar: {type: Number, min: 10, requiered: true},
   bitis_tarihi: {type: Date},
-  kullanici_id: {type: String}
+  kullanici_id: {type: String},
+  durum: {type: String, enum: ['bekliyor', 'evet', 'hayır'], default: 'bekliyor'},
+
 },
     {timestamps: true}
 );

@@ -1,7 +1,7 @@
 import React, { Component, useState, useContext } from "react";
 import axios from "axios";
 import "../bootstrap/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import { KuponContext } from "../context/KullaniciContext.js";
 
