@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 
 const kuponSchema = new Schema({
   bahisler: [{
+        baslik: {type: String},
         id: {type: String},
         tahmin: {type: String}, 
         oran: {type: Number}

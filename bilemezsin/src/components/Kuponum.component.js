@@ -85,7 +85,7 @@ const Kuponum = () => {
         }),
         <h4>
           Toplam oran;
-          {kupon.reduce((x, y) => x * y.oran[y.tahmin + "_oran"], 1).toFixed(2)}
+          { kupon.reduce((x, y) => x * y.oran[y.tahmin + "_oran"], 1).toFixed(2) }
         </h4>,
         <button
           className="btn btn-success"

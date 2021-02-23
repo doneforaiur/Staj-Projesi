@@ -23,6 +23,8 @@ const Navbar = (props) => {
     axios.defaults.headers.common["Authorization"] =
     "Bearer " + localStorage.getItem("Authorization");
 
+    if ( localStorage.getItem('Authorization') == null )
+      return;
     axios
       .get("http://94.54.82.97:5000/kullanicilar/" + kullanici_adi)
       .then((res) => {
@@ -52,9 +54,9 @@ const Navbar = (props) => {
               </a>
             </li>
             <li class="nav-item">
-              <a className="nav-link" href="#">
+              <Link className="nav-link" to="/kuponlarım">
                 Kuponlarım
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -71,15 +73,11 @@ const Navbar = (props) => {
             <span className="navbar-toggler-icon"></span>
           </button>
         </div>
-        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-          <ul class="navbar-nav ml-auto">
+        <div   class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+          <ul style={{display: props.loggedIn}} class="navbar-nav ml-auto">
           <li className="nav-item">
-              <a className="nav-link">Bakiye; {bakiye} BP</a>
+              <a className="nav-link">Bakiye; <b>{bakiye}</b> BP</a>
             </li>
-
-
-
-
 
             <li className="nav-item">
               <a

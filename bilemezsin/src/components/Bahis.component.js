@@ -3,18 +3,19 @@ import { KuponContext } from "../context/KullaniciContext";
 import axios from "axios";
 
 const YorumlarView = (props) => {
-return (
-
-  <div style={{padding:10, background: 'smokewhite' }} className="card">
-    <div style={{padding:10}} className="card-body">
-      <b> {props.yorum.kullanici_adi} </b> yazmış;
-      <br />
-      {props.yorum.icerik}
+  return (
+    <div
+      style={{ margin: 3, padding: 10, background: "white" }}
+      className="card"
+    >
+      <div style={{ padding: 10 }} className="card-body">
+        <b> {props.yorum.kullanici_adi} </b> yazmış;
+        <br />
+        {props.yorum.icerik}
+      </div>
     </div>
-
-  </div>
-
-)};
+  );
+};
 
 const Bahis = (props) => {
   const [bahis, setBahis] = useState({
@@ -42,12 +43,12 @@ const Bahis = (props) => {
 
   const kuponaEkle = (tahmin, bahis) => {
     bahis["tahmin"] = tahmin;
-    var index = kupon.findIndex(function(item, i){
+    var index = kupon.findIndex(function (item, i) {
       return item._id === bahis._id;
     });
-    if(index > -1){
+    if (index > -1) {
       alert("Bir bahise sadece bir tahmin yapabilirsiniz.");
-      return
+      return;
     }
 
     setKupon([...kupon, bahis]);
@@ -56,28 +57,27 @@ const Bahis = (props) => {
 
   const [yorumum, setYorumum] = useState("");
 
-  const onSubmit = (e,props) => {
+  const onSubmit = (e, props) => {
     e.preventDefault();
     axios.defaults.headers.common["Authorization"] =
       "Bearer " + localStorage.getItem("Authorization");
 
     var _yorum = {
-      icerik: yorumum, 
-        bahis_id: props.match.params.id
-    }
+      icerik: yorumum,
+      bahis_id: props.match.params.id,
+    };
     axios
       .post("http://94.54.82.97:5000/yorumlar/add", _yorum)
       .then((res) => {
         console.log(res.data);
-        window.location = "/bahisler/"+props.match.params.id;
+        window.location = "/bahisler/" + props.match.params.id;
       })
       .catch((err) => console.log(err));
+  };
 
-  }
-  
   const onYorumChange = (e) => {
     setYorumum(e.target.value);
-  }
+  };
 
   useEffect(() => {
     axios.defaults.headers.common["Authorization"] =
@@ -98,15 +98,15 @@ const Bahis = (props) => {
       .catch((err) => console.log(err));
   }, []);
 
-  const [kupon, setKupon, kullanici_adi, setKullaniciAdi] = useContext(
+  const [kupon, setKupon] = useContext(
     KuponContext
   );
 
   return bahis.baslik.length <= 0 ? (
     <></>
   ) : (
-    <div>
-      <div className="card bg-dark text-white" style={{ margin: 10 }}>
+    <div style={{ maxWidth: 900, margin: "0 auto" }}>
+      <div className="card bg-dark text-white" style={{ margin: 0 }}>
         <div style={{ height: 200, overflow: "hidden" }}>
           <img
             className="card-img"
@@ -124,7 +124,7 @@ const Bahis = (props) => {
         </div>
       </div>
 
-      <div className="card" style={{ margin: 20 }}>
+      <div className="card" style={{ margin: 0 }}>
         <div className="card-body">
           <p className="card-text"> {bahis.icerik} </p>
           <br />
@@ -146,7 +146,6 @@ const Bahis = (props) => {
               aria-valuemin="0"
               aria-valuemax="100"
             >
-              {" "}
               <div style={{ transform: "rotate(180deg)" }}>TUTAR </div>
             </div>
 
@@ -171,18 +170,22 @@ const Bahis = (props) => {
             </div>
           </div>
           <br />
-          <button
-            onClick={() => kuponaEkle("tutar", bahis)}
-            className="btn btn-success"
-          >
-            EVET ({bahis.oran.tutar_oran.toFixed(2)})
-          </button>
-          <button
-            onClick={() => kuponaEkle("tutmaz", bahis)}
-            className="btn btn-danger"
-          >
-            HAYIR ({bahis.oran.tutmaz_oran.toFixed(2)})
-          </button>
+
+          <div>
+            <button
+              onClick={() => kuponaEkle("tutar", bahis)}
+              className="btn btn-success btn-md"
+            >
+              EVET ({bahis.oran.tutar_oran.toFixed(2)})
+            </button>
+
+            <button
+              onClick={() => kuponaEkle("tutmaz", bahis)}
+              className="btn btn-danger btn-md"
+            >
+              HAYIR ({bahis.oran.tutmaz_oran.toFixed(2)})
+            </button>
+          </div>
         </div>
       </div>
 
@@ -190,36 +193,36 @@ const Bahis = (props) => {
 
       {yorumlar.length > 0 ? (
         yorumlar.map((yorum) => {
-          console.log(yorum._id)
-          return <YorumlarView key={yorum._id} yorum={yorum}  />;
+          console.log(yorum._id);
+          return <YorumlarView key={yorum._id} yorum={yorum} />;
         })
       ) : (
         <div></div>
       )}
 
-
-<div>
-        <h3> Yorum Yap </h3>
-        <form onSubmit={(e) => onSubmit(e,props)}>
-          <div className="form-group">
-            <label>Yorumunuz; </label>
-            <input type="text"
-              required
-              className="form-control"
-              value={yorumum}
-              onChange={onYorumChange} 
+      <div className="card">
+        <div className="card-body">
+          <form onSubmit={(e) => onSubmit(e, props)}>
+            <div className="form-group">
+              <label>Yorumunuz; </label>
+              <input
+                type="text"
+                required
+                className="form-control"
+                value={yorumum}
+                onChange={onYorumChange}
               />
-
-          </div>
-          <div className="form-group">
-            <input type="submit" value="Yorumu yap" 
-                className="btn btn-primary" />
-          </div>
-        </form>
+            </div>
+            <div className="form-group">
+              <input
+                type="submit"
+                value="Yorumu yap"
+                className="btn btn-primary"
+              />
+            </div>
+          </form>
+        </div>
       </div>
-
-
-
     </div>
   );
 };

@@ -12,6 +12,10 @@ import SignUp from "./components/Signup.component";
 import Login from "./components/Login.component";
 import Bahis from "./components/Bahis.component";
 import Kuponum from "./components/Kuponum.component";
+import Kuponlarım from "./components/Kuponlarım.component";
+import PrivateRoute from "./components/PrivateRoute.component";
+
+
 
 import { KuponProvider, KuponContext } from "./context/KullaniciContext";
 
@@ -29,7 +33,7 @@ function App() {
 
   console.log(kullanici_adi);
 
-
+  var loggedIn = localStorage.getItem('Authorization') ? "inherit" : "none";
 
   console.log(openPanel);
   document.body.style = "background: whitesmoke";
@@ -61,13 +65,14 @@ function App() {
       </CheeseburgerMenu>
 
       <Router>
-        <Navbar />
+        <Navbar loggedIn={loggedIn} />
         <br />
-        <Route path="/" exact component={BahisList} />
-        <Route path="/signup" exact component={SignUp} />
-        <Route path="/login" exact component={Login} />
-        <Route path="/bahisler/:id" exact component={Bahis} />
-        {/* <Route path="/kuponum" exact component={Kuponum} /> */}
+        <PrivateRoute path="/" exact component={BahisList} />
+        <Route path="/signup" exact component={SignUp}  />
+        <Route path="/login" exact component={Login}  />
+        <PrivateRoute path="/bahisler/:id" exact component={Bahis} />
+        <PrivateRoute path="/kuponum" exact component={Kuponum} />
+        <PrivateRoute  path="/kuponlarım" exact component={Kuponlarım} />
       </Router>
     </>
   );

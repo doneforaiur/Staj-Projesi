@@ -43,12 +43,16 @@ router.route('/add').post((req,res) =>{
       var tahmin = kupon.find(t=>t.id == bahis._id).tahmin;
       var oran =  (tahmin == "tutar") ?  bahis.oran.tutar_oran : bahis.oran.tutmaz_oran;
 
+
+      console.log(bahis.baslik);
       bahisData = {
+        "baslik": bahis.baslik,
         "id": bahis._id,
         "tahmin" : tahmin,
         "oran" :oran
       }
       bahisArray.push(bahisData);
+      console.log(bahisData);
 
       //  oynayan sayısını arttırma
 
@@ -86,6 +90,7 @@ router.route('/add').post((req,res) =>{
     });
     var bitis_tarihi = bahisler[0].bitis;
     bahisler = bahisArray;
+    console.log(bahisArray);
     const yeniKupon = new Kupon({
       bahisler, 
       tutar,
@@ -109,14 +114,16 @@ router.route('/:id').get((req,res) => {
 });
 
 router.route('/kullanici_kupon/:id').get((req,res) =>{
-  // id, kullanici id'si
   var id = req.params.id;
-  Kupon.find({kullanici_id:id}).sort({'createdAt':-1})
+  Kullanici.findOne({kullanici_adi: id}).then(kullanici => {
+
+    console.log(kullanici)
+    Kupon.find({kullanici_id:kullanici._id}).sort({'createdAt':-1})
     .then(kuponlar => {
       if(kuponlar == null ) res.json("Kullanıcının hiç kuponu yok.")
       else res.json(kuponlar)})
     .catch(err => res.status(400).json('Hata; ' + err));
 });
-
+});
 
 module.exports = router;
