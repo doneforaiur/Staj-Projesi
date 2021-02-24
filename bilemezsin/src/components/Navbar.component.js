@@ -2,7 +2,8 @@ import React, {  useEffect,useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { KuponContext } from "../context/KullaniciContext.js";
 import axios from 'axios';
-
+import CheeseburgerMenu from 'cheeseburger-menu';
+import Kuponum from './Kuponum.component';
 
 const Navbar = (props) => {
   const [
@@ -14,12 +15,10 @@ const Navbar = (props) => {
     setOpenPanel,
     kullaniciAyar,
     setKullaniciAyar,
+    bakiye, setBakiye
   ] = useContext(KuponContext);
 
-  const [bakiye, setBakiye] = useState(0);
-
   useEffect(() => {
-
     axios.defaults.headers.common["Authorization"] =
     "Bearer " + localStorage.getItem("Authorization");
 
@@ -29,31 +28,58 @@ const Navbar = (props) => {
       .get("http://94.54.82.97:5000/kullanicilar/" + kullanici_adi)
       .then((res) => {
         if (res.status == 200) {
+          console.log("bakiye setlendi");
           setBakiye(res.data.bakiye); 
         }
       })
       .catch((err) => console.log(err));
 
-  }, [kullanici_adi]);
-
+  }, [setBakiye, kullanici_adi]);
   setKullaniciAdi(localStorage.getItem("kullanici_adi"));
 
   return (
     <>
+
+ <CheeseburgerMenu
+        isOpen={openPanel}
+        width={450}
+        right={true}
+        noShadow={false}
+        closeCallback={() => setOpenPanel(false)}
+      >
+        <div className="my-menu-content">
+          <Kuponum />
+        </div>
+      </CheeseburgerMenu>
+
+      <CheeseburgerMenu
+        isOpen={kullaniciAyar}
+        width={200}
+        right={true}
+        closeCallback={() => setKullaniciAyar(false)}
+      >
+        <div className="my-menu-content">
+          <li>Profil ayarları</li>
+          <li>Çıkış Yap</li>
+        </div>
+      </CheeseburgerMenu>
+
+
+
       <nav className="navbar navbar-expand-md navbar-dark bg-danger">
         <div className="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <Link class="nav-link" to="/">
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item active">
+              <Link className="nav-link" to="/">
                 Bahisler
               </Link>
             </li>
-            <li class="nav-item">
+            <li className="nav-item">
               <a className="nav-link" href="#">
                 Kullanıcılar
               </a>
             </li>
-            <li class="nav-item">
+            <li className="nav-item">
               <Link className="nav-link" to="/kuponlarım">
                 Kuponlarım
               </Link>
@@ -73,8 +99,8 @@ const Navbar = (props) => {
             <span className="navbar-toggler-icon"></span>
           </button>
         </div>
-        <div   class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-          <ul style={{display: props.loggedIn}} class="navbar-nav ml-auto">
+        <div   className="navbar-collapse collapse w-100 order-3 dual-collapse2">
+          <ul style={{display: props.loggedIn}} className="navbar-nav ml-auto">
           <li className="nav-item">
               <a className="nav-link">Bakiye; <b>{bakiye}</b> BP</a>
             </li>
@@ -89,7 +115,7 @@ const Navbar = (props) => {
               </a>
             </li>
 
-            <li class="nav-item active">
+            <li className="nav-item active">
               <a
                 href="#"
                 onClick={() => setKullaniciAyar(true)}

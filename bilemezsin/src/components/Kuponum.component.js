@@ -6,21 +6,20 @@ import { Link, Redirect } from "react-router-dom";
 import { KuponContext } from "../context/KullaniciContext.js";
 
 const Bahis = (props) => {
+
   function BahisiSil(bahis) {
     var yeni_kupon = props.kupon_func.filter(
       (_bahis) => _bahis._id != bahis._id
     );
-
-    console.log(yeni_kupon);
     props.bahisiSil(yeni_kupon);
   }
 
   return (
-    <div class="card mb-1" style={{ alignSelf: "center", minWidth: "100%" }}>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">{props.bahis.baslik} </h5>
-          <p class="card-text">{props.bahis.tahmin}</p>
+    <div className="card mb-1" style={{ alignSelf: "center", minWidth: "100%" }}>
+      <div className="col-md-8">
+        <div className="card-body">
+          <h5 className="card-title">{props.bahis.baslik} </h5>
+          <p className="card-text">{props.bahis.tahmin}</p>
           <button
             style={{ position: "absolute", right: -100, top: 10 }}
             className="btn btn-danger"
@@ -37,7 +36,6 @@ const Bahis = (props) => {
 const Kuponum = () => {
   const [kupon, setKupon] = useContext(KuponContext);
 
-  console.log(kupon);
   const kuponuOyna = (e, kupon) => {
     e.preventDefault();
     var jwtToken = localStorage.getItem("Authorization");
@@ -46,10 +44,8 @@ const Kuponum = () => {
       return { id: bahis._id, tahmin: bahis.tahmin };
     });
 
-    var kupon = { kupon: bahisler, tutar: 50 };
-    console.log(kupon);
     axios
-      .post("http://94.54.82.97:5000/kuponlar/add", kupon)
+      .post("http://94.54.82.97:5000/kuponlar/add", {kupon: bahisler, tutar: 50})
       .then((res) => {
         if (res.status == 200) {
           setKupon([]);
@@ -60,7 +56,7 @@ const Kuponum = () => {
   };
 
   const kuponBahisList = () => {
-    if (kupon.length == 0) {
+    if (kupon.length < 1) {
       return (
         <div>
           <br />
@@ -76,8 +72,9 @@ const Kuponum = () => {
         kupon.map((_bahis) => {
           return (
             <Bahis
-              key={_bahis._id}
-              bahis={_bahis}
+            key={_bahis._id+"AAAAAAAAAAAAAAA"}  
+            bahis={_bahis}
+              
               kupon_func={kupon}
               bahisiSil={(a) => setKupon(a)}
             />

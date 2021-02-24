@@ -38,6 +38,7 @@ const Bahis = (props) => {
       kullanici_id: "",
       kullanici_adi: "",
       begeni_sayisi: 0,
+      _id: ""
     },
   ]);
 
@@ -52,7 +53,6 @@ const Bahis = (props) => {
     }
 
     setKupon([...kupon, bahis]);
-    console.log(kupon);
   };
 
   const [yorumum, setYorumum] = useState("");
@@ -69,7 +69,6 @@ const Bahis = (props) => {
     axios
       .post("http://94.54.82.97:5000/yorumlar/add", _yorum)
       .then((res) => {
-        console.log(res.data);
         window.location = "/bahisler/" + props.match.params.id;
       })
       .catch((err) => console.log(err));
@@ -192,9 +191,8 @@ const Bahis = (props) => {
       {yorumlar.icerik}
 
       {yorumlar.length > 0 ? (
-        yorumlar.map((yorum) => {
-          console.log(yorum._id);
-          return <YorumlarView key={yorum._id} yorum={yorum} />;
+        yorumlar.map((_yorum) => {
+          return <YorumlarView  yorum={_yorum} key={_yorum._id} />;
         })
       ) : (
         <div></div>

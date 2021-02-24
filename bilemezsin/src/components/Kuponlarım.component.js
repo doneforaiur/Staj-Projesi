@@ -33,14 +33,13 @@ const KupondakiBahis = (props) => {
 };
 
 const KuponBahis = (props) => {
-  console.log(props.bahisler);
   var kupon_durumu = "#fffc90"; // sarı
   if (props.bahisler.durum == "ödendi" || props.bahisler.durum == "tuttu" ) kupon_durumu = "#afecaf"; // yeşil
   else if( props.bahisler.durum == "tutmadı" ) kupon_durumu = "#ecafaf"; // kırmızı
 
   return (
-    <div class="card" style={{margin: '10px auto', backgroundColor: kupon_durumu}}>
-        <div class="card-body">
+    <div className="card" style={{margin: '10px auto', backgroundColor: kupon_durumu}}>
+        <div className="card-body">
           Oynanma tarihi; {props.bahisler.createdAt} <br/>
           Bitiş tarihi; {props.bahisler.bitis_tarihi}
           <br />
@@ -69,7 +68,6 @@ const Kuponlarım = () => {
       .get("http://94.54.82.97:5000/kuponlar/kullanici_kupon/" + kullanici_adi)
       .then((res) => {
         if (res.status == 200) {
-          console.log(res.data);
           setKuponlar(res.data);
         }
       })

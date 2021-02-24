@@ -23,10 +23,10 @@ return (
  
  <div style={{display: tempProps.display, position: 'absolute', right: 5, top:5, margin: '0 auto'}}> 
  <div className="card text-white bg-danger">
-  <div class="card-body" style={{  padding: 2}}>
-  <i class="glyphicon glyphicon-cloud"></i>
+  <div className="card-body" style={{  padding: 2}}>
+  <i className="glyphicon glyphicon-cloud"></i>
 
-    <p class="card-title" style={{ marginBottom: 0 }}>YENİ</p>
+    <p className="card-title" style={{ marginBottom: 0 }}>YENİ</p>
   </div>
 </div>
   </div>
@@ -50,9 +50,7 @@ export default class BahisList extends Component {
     axios.defaults.headers.common['Authorization'] = "Bearer " + jwtToken;
     axios.get('http://94.54.82.97:5000/bahisler')
     .then(res => {
-      console.log(res);
       this.setState({bahisler: res.data});
-      console.log(this.state);
     })
     .catch(err => console.log(err));
   }
