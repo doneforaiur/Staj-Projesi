@@ -4,7 +4,7 @@ import { Redirect, Route } from 'react-router-dom'
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
 
-  var loggedIn = localStorage.getItem('Authorization') ? true : false
+  var loggedIn = (localStorage.getItem('Authorization')  != "undefined" ) ? true : false
 
   return (
     <Route
