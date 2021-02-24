@@ -8,7 +8,7 @@ const bahisSchema = new Schema({
   baslangic:  {type: Date, required:true},
   bitis:      {type: Date, required:true},
   gorsel_url: {type: String },
-  durum: {type: String, enum: ['bekliyor', 'evet', 'hayır', 'iptal'], default: 'bekliyor'},
+  durum: {type: String, enum: ['bekliyor', 'tutar', 'tutmaz', 'iptal'], default: 'bekliyor'},
   oran: {
     tutar_oran:     {type: Number, default: 2},
     tutmaz_oran:    {type: Number, default: 2},

@@ -49,6 +49,7 @@ const kuponlarRouter = require("./routes/kuponlar");
 const yorumlarRouter = require("./routes/yorumlar");
 const loginRouter = require("./routes/login");
 const signupRouter = require("./routes/signup");
+const Kullanici = require("./models/kullanici.model");
 
 app.use("/bahisler", authenticateJWT, bahislerRouter); // Anasayfada görülebilmesi için JWT yok
 app.use("/kullanicilar", authenticateJWT, kullanicilarRouter);
@@ -57,16 +58,49 @@ app.use("/yorumlar", authenticateJWT, yorumlarRouter);
 app.use("/login", loginRouter);
 app.use("/signup", signupRouter);
 
-schedule.scheduleJob("* * * * *", () => {
+schedule.scheduleJob("0 0 * * * *", () => {
+  console.log("Kupon kontrolü ve ödemeler.");
   let Kupon = require("./models/kupon.model");
+  let Bahis = require("./models/bahis.model");
+  let Kullanici = require("./models/kullanici.model");
+
   var now = Date.now();
-  Kupon.find()
+  Kupon.find({ durum: "bekliyor" })
     .where("bitis_tarihi")
     .lt(now)
-    .where("durum")
-    .equals("bekliyor")
-    .then((bahisler) => {
-      console.log(bahisler);
+    .then((kuponlar) => {
+      kuponlar.map((kupon) => {
+        kupon.bahisler.map((bahis) => {
+          console.log(bahis);
+          kupon.durum == "tuttu";
+          Bahis.findById(bahis.id)
+            .then((_bahis) => {
+              console.log(_bahis.durum, bahis.tahmin);
+              if (_bahis.durum != bahis.tahmin) {
+                kupon.durum = "tutmadı";
+              }
+            })
+            .then(() => kupon.save());
+        });
+      });
+    })
+    .then(() => {
+      Kupon.find({ durum: "tuttu" }).then((kuponlar) => {
+        console.log(kuponlar);
+        kuponlar.map((kupon) => {
+          var toplam_oran = kupon.bahisler.reduce((oran, kup) => {
+            return oran * kup.oran;
+          }, 1);
+
+          Kullanici.findById(kupon.kullanici_id).then((kullanici) => {
+            kullanici.bakiye =
+              kullanici.bakiye + Math.floor(kupon.tutar * toplam_oran);
+            kullanici.save();
+            kupon.durum = "ödendi";
+            kupon.save();
+          });
+        });
+      });
     });
 });
 

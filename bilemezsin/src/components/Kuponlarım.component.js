@@ -6,8 +6,8 @@ import { Link, Redirect } from "react-router-dom";
 
 const KupondakiBahis = (props) => {
   let tahmin = props.bahis.tahmin;
-  if (tahmin == "tutar") tahmin = "btn-outline-success";
-  else tahmin = "btn-outline-danger";
+  if (tahmin == "tutar") tahmin = "btn-success";
+  else tahmin = "btn-danger";
 
   return (
     <div style={{margin: '0 10 0 0'}} className="container">
@@ -17,7 +17,7 @@ const KupondakiBahis = (props) => {
     </Link>
     <div className="col-2" >
     
-        <button style={{ minWidth: "100%"}} className={"btn " + tahmin}>
+        <button style={{ minWidth: "100%" }} className={"btn " + tahmin}>
           {props.bahis.tahmin.toUpperCase()}
         </button>
         </div>
@@ -34,10 +34,15 @@ const KupondakiBahis = (props) => {
 
 const KuponBahis = (props) => {
   console.log(props.bahisler);
+  var kupon_durumu = "#fffc90"; // sarı
+  if (props.bahisler.durum == "ödendi" || props.bahisler.durum == "tuttu" ) kupon_durumu = "#afecaf"; // yeşil
+  else if( props.bahisler.durum == "tutmadı" ) kupon_durumu = "#ecafaf"; // kırmızı
+
   return (
-    <div class="card" style={{margin: '10px auto'}}>
+    <div class="card" style={{margin: '10px auto', backgroundColor: kupon_durumu}}>
         <div class="card-body">
-          Oynanma tarihi; {props.bahisler.createdAt}
+          Oynanma tarihi; {props.bahisler.createdAt} <br/>
+          Bitiş tarihi; {props.bahisler.bitis_tarihi}
           <br />
           <br />
           {props.bahisler.bahisler.map((bahis) => (
