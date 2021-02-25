@@ -107,5 +107,5 @@ schedule.scheduleJob("0 0 * * * *", () => {
 });
 
 app.listen(port, () => {
-  console.log("server");
+  console.log("server", port);
 });
