@@ -25,7 +25,7 @@ function Login() {
     };
 
     axios
-      .post("http://94.54.82.97:5000/login", kullanici)
+      .post("/api/login", kullanici)
       .then((res) => {
         console.log(res.data.accessToken);
         localStorage.setItem("Authorization", res.data.accessToken);

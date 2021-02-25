@@ -36,7 +36,7 @@ const Kuponlarım = () => {
 
     if (localStorage.getItem("Authorization") == null) return;
     axios
-      .get("http://94.54.82.97:5000/kullanicilar")
+      .get("/api/kullanicilar")
       .then((res) => {
         if (res.status == 200) {
           setKullanicilar(res.data);

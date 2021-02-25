@@ -45,7 +45,7 @@ export default class SignUp extends Component {
  
     console.log(kullanici);
 
-    axios.post('http://localhost:5000/signup', kullanici)
+    axios.post('/api/signup', kullanici)
       .then(res => {
         console.log(res.data)
         window.location = "/login";

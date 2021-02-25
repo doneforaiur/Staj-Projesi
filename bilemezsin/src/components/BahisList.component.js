@@ -56,13 +56,6 @@ export default class BahisList extends Component {
     })
     .catch(err => console.log(err));
 
-    axios.get('/bahisler/sort')
-    .then(res => {
-      console.log(res);
-    })
-    .catch(err => console.log(err));
-
-
 
   }
 

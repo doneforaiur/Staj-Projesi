@@ -25,7 +25,7 @@ const Navbar = (props) => {
     if ( localStorage.getItem('Authorization') == null )
       return;
     axios
-      .get("http://94.54.82.97:5000/kullanicilar/" + kullanici_adi)
+      .get("/api/kullanicilar/" + kullanici_adi)
       .then((res) => {
         if (res.status == 200) {
           console.log("bakiye setlendi");

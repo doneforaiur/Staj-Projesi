@@ -67,7 +67,7 @@ const Bahis = (props) => {
       bahis_id: props.match.params.id,
     };
     axios
-      .post("http://94.54.82.97:5000/yorumlar/add", _yorum)
+      .post("/api/yorumlar/add", _yorum)
       .then((res) => {
         window.location = "/bahisler/" + props.match.params.id;
       })
@@ -90,7 +90,7 @@ const Bahis = (props) => {
       .catch((err) => console.log(err));
 
     axios
-      .get("http://94.54.82.97:5000/yorumlar/" + props.match.params.id)
+      .get("/api/yorumlar/" + props.match.params.id)
       .then((res) => {
         setYorumlar(res.data);
       })

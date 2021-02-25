@@ -45,7 +45,7 @@ const Kuponum = () => {
     });
 
     axios
-      .post("http://94.54.82.97:5000/kuponlar/add", {kupon: bahisler, tutar: 50})
+      .post("/api/kuponlar/add", {kupon: bahisler, tutar: 50})
       .then((res) => {
         if (res.status == 200) {
           setKupon([]);
