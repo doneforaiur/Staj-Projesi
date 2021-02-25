@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm install --prefix && node backend/server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=true npm install --save-prod && npm run build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --save-prod && npm run build"
   },
   "engines": {
     "node": "14.15.4"
