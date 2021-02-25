@@ -48,15 +48,6 @@ const authenticateJWT = (req, res, next) => {
   }
 };
 
- if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
-  console.log("girdi");
-  app.use(express.static('/../bilemezsin/build'));
-  app.get('*', (req, res) => {
-    console.log("girdi")
-    res.sendFile(path.join(__dirname + '/../bilemezsin/build/index.html'));
-  });
-}
-
 
 const bahislerRouter = require("./routes/bahisler");
 const kullanicilarRouter = require("./routes/kullanicilar");
@@ -66,11 +57,11 @@ const loginRouter = require("./routes/login");
 const signupRouter = require("./routes/signup");
 const Kullanici = require("./models/kullanici.model");
 
-app.use("/api/bahisler", authenticateJWT, bahislerRouter); // Anasayfada görülebilmesi için JWT yok
+app.use("/api/bahisler", authenticateJWT, bahislerRouter); 
 app.use("/api/kullanicilar", authenticateJWT, kullanicilarRouter);
 app.use("/api/kuponlar", authenticateJWT, kuponlarRouter);
 app.use("/api/yorumlar", authenticateJWT, yorumlarRouter);
-app.use("/api/api/login", loginRouter);
+app.use("/api/login", loginRouter);
 app.use("/api/signup", signupRouter);
 
 schedule.scheduleJob("0 0 * * * *", () => {
@@ -120,6 +111,16 @@ schedule.scheduleJob("0 0 * * * *", () => {
 });
 
 
+/* 
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
+  console.log("girdi");
+  app.use(express.static('../bilemezsin/build'));
+  app.get('*', (req, res) => {
+    console.log("girdi 2")
+    res.sendFile(path.join(__dirname + '/../bilemezsin/build/index.html'));
+  });
+}
+ */
 
 app.listen(port, () => {
   console.log("server", port);
