@@ -117,6 +117,8 @@ app.use("/login", express.static('../bilemezsin/build'));
 app.use("/signup", express.static('../bilemezsin/build'));
 app.use("/kuponlarim", express.static('../bilemezsin/build'));
 app.use("/kullanicilar/*", express.static('../bilemezsin/build'));
+app.use("/bahisler", express.static('../bilemezsin/build'));
+app.use("/bahisler/*", express.static('../bilemezsin/build'));
 
 
 
