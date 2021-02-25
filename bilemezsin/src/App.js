@@ -12,7 +12,7 @@ import SignUp from "./components/Signup.component";
 import Login from "./components/Login.component";
 import Bahis from "./components/Bahis.component";
 import Kuponum from "./components/Kuponum.component";
-import Kuponlarım from "./components/Kuponlarım.component";
+import Kuponlarim from "./components/Kuponlarım.component";
 import PrivateRoute from "./components/PrivateRoute.component";
 
 import { KuponProvider, KuponContext } from "./context/KullaniciContext";
@@ -43,7 +43,7 @@ function App() {
         <Route path="/login" exact component={Login} />
         <PrivateRoute path="/bahisler/:id" exact component={Bahis} />
         <PrivateRoute path="/kuponum" exact component={Kuponum} />
-        <PrivateRoute path="/kuponlarım" exact component={Kuponlarım} />
+        <PrivateRoute path="/kuponlarim" exact component={Kuponlarim} />
         <PrivateRoute path="/kullanicilar" exact component={KullanicilarList} />
       </Router>
     </>

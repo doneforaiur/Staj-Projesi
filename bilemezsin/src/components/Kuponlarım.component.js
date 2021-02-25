@@ -52,7 +52,7 @@ const KuponBahis = (props) => {
   );
 };
 
-const Kuponlarım = () => {
+const Kuponlarim = () => {
   const [kupon, setKupon, kullanici_adi, setKullaniciAdi] = useContext(
     KuponContext
   );
@@ -83,4 +83,4 @@ const Kuponlarım = () => {
   );
 };
 
-export default Kuponlarım;
+export default Kuponlarim;
