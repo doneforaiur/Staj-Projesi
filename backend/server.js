@@ -3,6 +3,9 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const schedule = require("node-schedule");
+const path = require('path');
+
+
 
 require("dotenv").config({ path: "./dot.env" });
 
@@ -45,6 +48,16 @@ const authenticateJWT = (req, res, next) => {
   }
 };
 
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
+  console.log("girdi");
+  app.use(express.static('../bilemezsin/build'));
+  app.get('*', (req, res) => {
+    console.log("girdi")
+    res.sendFile(path.join(__dirname + '/../bilemezsin/build/index.html'));
+  });
+}
+
+
 const bahislerRouter = require("./routes/bahisler");
 const kullanicilarRouter = require("./routes/kullanicilar");
 const kuponlarRouter = require("./routes/kuponlar");
@@ -53,7 +66,7 @@ const loginRouter = require("./routes/login");
 const signupRouter = require("./routes/signup");
 const Kullanici = require("./models/kullanici.model");
 
-app.use("/bahisler", authenticateJWT, bahislerRouter); // Anasayfada görülebilmesi için JWT yok
+app.use("/api/bahisler", authenticateJWT, bahislerRouter); // Anasayfada görülebilmesi için JWT yok
 app.use("/kullanicilar", authenticateJWT, kullanicilarRouter);
 app.use("/kuponlar", authenticateJWT, kuponlarRouter);
 app.use("/yorumlar", authenticateJWT, yorumlarRouter);
@@ -105,6 +118,8 @@ schedule.scheduleJob("0 0 * * * *", () => {
       });
     });
 });
+
+
 
 app.listen(port, () => {
   console.log("server", port);

@@ -49,7 +49,7 @@ export default class BahisList extends Component {
   componentDidMount(){
     var jwtToken = localStorage.getItem('Authorization');
     axios.defaults.headers.common['Authorization'] = "Bearer " + jwtToken;
-    axios.get('/bahisler')
+    axios.get('/api/bahisler')
     .then(res => {
       console.log(res.data);
       this.setState({bahisler: res.data});
