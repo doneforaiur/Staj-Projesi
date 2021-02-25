@@ -67,11 +67,11 @@ const signupRouter = require("./routes/signup");
 const Kullanici = require("./models/kullanici.model");
 
 app.use("/api/bahisler", authenticateJWT, bahislerRouter); // Anasayfada görülebilmesi için JWT yok
-app.use("/kullanicilar", authenticateJWT, kullanicilarRouter);
-app.use("/kuponlar", authenticateJWT, kuponlarRouter);
-app.use("/yorumlar", authenticateJWT, yorumlarRouter);
-app.use("/login", loginRouter);
-app.use("/signup", signupRouter);
+app.use("/api/kullanicilar", authenticateJWT, kullanicilarRouter);
+app.use("/api/kuponlar", authenticateJWT, kuponlarRouter);
+app.use("/api/yorumlar", authenticateJWT, yorumlarRouter);
+app.use("/api/api/login", loginRouter);
+app.use("/api/signup", signupRouter);
 
 schedule.scheduleJob("0 0 * * * *", () => {
   console.log("Kupon kontrolü ve ödemeler.");
