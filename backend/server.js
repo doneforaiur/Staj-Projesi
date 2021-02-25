@@ -9,6 +9,8 @@ require("dotenv").config({ path: "./dot.env" });
 const app = express();
 const port = process.env.PORT;
 
+app.enable('trust proxy');
+
 app.use(cors());
 app.use(express.json());
 
