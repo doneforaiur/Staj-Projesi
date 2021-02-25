@@ -1,2 +1,2 @@
-worker: node backend/server.js
+worker: npm start --prefix ./backend/
 web: npm start --prefix ./bilemezsin/
