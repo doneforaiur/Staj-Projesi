@@ -48,7 +48,7 @@ const authenticateJWT = (req, res, next) => {
   }
 };
 
-if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
+/* if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
   console.log("girdi");
   app.use(express.static('../bilemezsin/build'));
   app.get('*', (req, res) => {
@@ -56,7 +56,7 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging')
     res.sendFile(path.join(__dirname + '/../bilemezsin/build/index.html'));
   });
 }
-
+ */
 
 const bahislerRouter = require("./routes/bahisler");
 const kullanicilarRouter = require("./routes/kullanicilar");
