@@ -44,6 +44,7 @@ function App() {
         <PrivateRoute path="/bahisler/:id" exact component={Bahis} />
         <PrivateRoute path="/kuponum" exact component={Kuponum} />
         <PrivateRoute path="/kuponlarım" exact component={Kuponlarım} />
+        <PrivateRoute path="/kullanicilar" exact component={KullanicilarList} />
       </Router>
     </>
   );
