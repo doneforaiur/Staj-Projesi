@@ -51,7 +51,7 @@ const Navbar = (props) => {
           <Kuponum />
         </div>
       </CheeseburgerMenu>
-
+{/* 
       <CheeseburgerMenu
         isOpen={kullaniciAyar}
         width={200}
@@ -63,7 +63,7 @@ const Navbar = (props) => {
           <li>Çıkış Yap</li>
         </div>
       </CheeseburgerMenu>
-
+ */}
 
 
       <nav className="navbar navbar-expand-md navbar-dark bg-danger">

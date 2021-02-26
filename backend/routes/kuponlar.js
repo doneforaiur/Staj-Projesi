@@ -15,7 +15,6 @@ router.route("/add").post((req, res) => {
   const tutar = req.body.tutar;
   const kupon = req.body.kupon;
 
-  console.log(tutar, kupon);
   ids = kupon.map(({ id }) => id);
   // ids, kupona eklenecek bütün bahislerin id arrayi
   // var kullanici_id;
@@ -23,7 +22,6 @@ router.route("/add").post((req, res) => {
   Kullanici.findOne({ kullanici_adi: kullanici_adi })
     .then((kullanici) => {
       var kullanici_id = kullanici._id;
-      console.log(kullanici);
       if (kullanici.bakiye < tutar) {
         res.json("Yetersiz bakiye.");
         res.send();
@@ -47,7 +45,6 @@ router.route("/add").post((req, res) => {
                 ? bahis.oran.tutar_oran
                 : bahis.oran.tutmaz_oran;
 
-            console.log(bahis.baslik);
             bahisData = {
               baslik: bahis.baslik,
               id: bahis._id,
@@ -55,7 +52,6 @@ router.route("/add").post((req, res) => {
               oran: oran,
             };
             bahisArray.push(bahisData);
-            console.log(bahisData);
 
             //  oynayan sayısını arttırma
 
@@ -82,8 +78,6 @@ router.route("/add").post((req, res) => {
               var yeni_tutmaz_oran = 2 * tutmaz_o + 1;
             }
 
-            console.log(tutar_o, tutmaz_o, yeni_tutar_oran, yeni_tutmaz_oran);
-
             bahis.oran.tutar_oran = yeni_tutar_oran;
             bahis.oran.tutmaz_oran = yeni_tutmaz_oran;
             bahis.save();
@@ -91,7 +85,6 @@ router.route("/add").post((req, res) => {
 
           var bitis_tarihi = bahisler[0].bitis;
           bahisler = bahisArray;
-          console.log(bahisArray);
           const yeniKupon = new Kupon({
             bahisler,
             tutar,
@@ -119,7 +112,6 @@ router.route("/:id").get((req, res) => {
 router.route("/kullanici_kupon/:id").get((req, res) => {
   var id = req.params.id;
   Kullanici.findOne({ kullanici_adi: id }).then((kullanici) => {
-    console.log(kullanici);
     Kupon.find({ kullanici_id: kullanici._id })
       .sort({ createdAt: -1 })
       .then((kuponlar) => {

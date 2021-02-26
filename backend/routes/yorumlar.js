@@ -16,7 +16,6 @@ router.route('/:id').get((req,res) => {
 });
 
 router.route('/add').post((req,res) =>{
-  console.log(req.body);
   const icerik    = req.body.icerik;
   const kullanici_id    = req.user.kullanici_id;
   const kullanici_adi = req.user.kullanici_adi;
