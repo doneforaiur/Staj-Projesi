@@ -12,7 +12,7 @@ import SignUp from "./components/Signup.component";
 import Login from "./components/Login.component";
 import Bahis from "./components/Bahis.component";
 import Kuponum from "./components/Kuponum.component";
-import Kuponlarim from "./components/Kuponlarım.component";
+import Kuponlarim from "./components/Kuponlarim.component";
 import PrivateRoute from "./components/PrivateRoute.component";
 
 import { KuponProvider, KuponContext } from "./context/KullaniciContext";

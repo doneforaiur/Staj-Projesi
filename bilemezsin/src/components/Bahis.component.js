@@ -83,7 +83,7 @@ const Bahis = (props) => {
       "Bearer " + localStorage.getItem("Authorization");
 
     axios
-      .get("/bahisler/" + props.match.params.id)
+      .get("/api/bahisler/" + props.match.params.id)
       .then((res) => {
         setBahis(res.data);
       })

@@ -85,8 +85,9 @@ schedule.scheduleJob("0 0 * * * *", () => {
               if (_bahis.durum != bahis.tahmin) {
                 kupon.durum = "tutmadı";
               }
+              return kupon;
             })
-            .then(() => kupon.save());
+            .then((kupon) => kupon.save());
         });
       });
     })
@@ -116,7 +117,7 @@ app.use("/bahisler", express.static('../bilemezsin/build'));
 app.use("/login", express.static('../bilemezsin/build'));
 app.use("/signup", express.static('../bilemezsin/build'));
 app.use("/kuponlarim", express.static('../bilemezsin/build'));
-app.use("/kullanicilar/*", express.static('../bilemezsin/build'));
+app.use("/kullanicilar", express.static('../bilemezsin/build'));
 app.use("/bahisler", express.static('../bilemezsin/build'));
 app.use("/bahisler/*", express.static('../bilemezsin/build'));
 

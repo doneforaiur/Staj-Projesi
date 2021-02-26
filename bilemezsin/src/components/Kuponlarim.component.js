@@ -3,6 +3,12 @@ import axios from "axios";
 import { KuponContext } from "../context/KullaniciContext";
 import { Link, Redirect } from "react-router-dom";
 
+const formatDate = (dateString) => {
+  const options = { year: "numeric", month: "long", day: "numeric" }
+  return new Date(dateString).toLocaleDateString('tr-TR', options)
+}
+
+
 
 const KupondakiBahis = (props) => {
   let tahmin = props.bahis.tahmin;
@@ -40,13 +46,25 @@ const KuponBahis = (props) => {
   return (
     <div className="card" style={{margin: '10px auto', backgroundColor: kupon_durumu}}>
         <div className="card-body">
-          Oynanma tarihi; {props.bahisler.createdAt} <br/>
-          Bitiş tarihi; {props.bahisler.bitis_tarihi}
-          <br />
-          <br />
+          <p stylr={{textAlign: 'left'}} > Oynanma; {formatDate(props.bahisler.createdAt)} 
+          
+          <span style={{ float: 'right' }}>
+          Bitiş; {formatDate(props.bahisler.bitis_tarihi)}
+          </span>
+  
+          </p>
           {props.bahisler.bahisler.map((bahis) => (
             <KupondakiBahis bahis={bahis} key={bahis._id} />
           ))}
+
+<div className="row">
+<div className="col-9"></div>
+
+<div className="col-2">
+           Toplam oran; { props.bahisler.bahisler.reduce((x, y) => x * y.oran, 1).toFixed(2) }
+            
+            </div>
+            </div>
         </div>
     </div>
   );

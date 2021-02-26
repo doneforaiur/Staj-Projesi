@@ -80,7 +80,7 @@ const Navbar = (props) => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/kuponlarım">
+              <Link className="nav-link" to="/kuponlarim">
                 Kuponlarım
               </Link>
             </li>
