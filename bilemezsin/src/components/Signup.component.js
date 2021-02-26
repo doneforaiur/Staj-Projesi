@@ -69,7 +69,7 @@ export default class SignUp extends Component {
               onChange={this.onChangeKullaniciAdi} 
               />
               <label>Şifre:</label>
-              <input type="text"
+              <input type="password"
               required
               className="form-control"
               value={this.state.sifre}
@@ -77,7 +77,6 @@ export default class SignUp extends Component {
               /> 
               <label>E-mail:</label>
               <input type="text"
-              required
               className="form-control"
               value={this.state.email}
               onChange={this.onChangeEMail} 

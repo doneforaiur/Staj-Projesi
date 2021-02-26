@@ -51,7 +51,7 @@ function Login() {
           />
           <label>Şifre:</label>
           <input
-            type="text"
+            type="password"
             required
             className="form-control"
             value={sifre}

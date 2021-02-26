@@ -7,7 +7,6 @@ import CheeseburgerMenu from "cheeseburger-menu";
 import Navbar from "./components/Navbar.component";
 import BahisList from "./components/BahisList.component.js";
 import KullanicilarList from "./components/KullanicilarList.component";
-import Profil from "./components/Profil.component";
 import SignUp from "./components/Signup.component";
 import Login from "./components/Login.component";
 import Bahis from "./components/Bahis.component";

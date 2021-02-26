@@ -2,6 +2,15 @@ import React, { useState, useContext, useEffect } from "react";
 import { KuponContext } from "../context/KullaniciContext";
 import axios from "axios";
 
+
+const formatDate = (dateString) => {
+  const options = { year: "numeric", month: "long", day: "numeric" }
+  return new Date(dateString).toLocaleDateString('tr-TR', options)
+}
+
+
+
+
 const YorumlarView = (props) => {
   return (
     <div
@@ -41,9 +50,27 @@ const Bahis = (props) => {
       _id: ""
     },
   ]);
+  const [kuponaEklendi, setKuponaEklendi] = useState("none");
 
   const kuponaEkle = (tahmin, bahis) => {
-    bahis["tahmin"] = tahmin;
+    
+    setTimeout(
+      function() {
+          setKuponaEklendi("float");
+      }
+      ,
+      3000 );
+
+      setTimeout(
+        function() {
+            setKuponaEklendi("none");
+        }
+        ,
+        3000 );
+  
+
+
+          bahis["tahmin"] = tahmin;
     var index = kupon.findIndex(function (item, i) {
       return item._id === bahis._id;
     });
@@ -53,6 +80,8 @@ const Bahis = (props) => {
     }
 
     setKupon([...kupon, bahis]);
+    
+    
   };
 
   const [yorumum, setYorumum] = useState("");
@@ -114,12 +143,13 @@ const Bahis = (props) => {
             alt="Görsel"
           />
         </div>
+        <div class="alert alert-success"  role="alert" style={{display: kuponaEklendi}} >Message of the Alert</div>
 
         <div className="card-img-overlay">
           <h5 className="card-title"> {bahis.baslik} </h5>
           <br />
-          <p className="card-text"> Başlama tarihi; {bahis.baslangic} </p>
-          <p className="card-text"> Bitiş tarihi; {bahis.bitis} </p>
+          <p className="card-text"> Başlama; {formatDate(bahis.baslangic)} </p>
+          <p className="card-text"> Bitiş; {formatDate(bahis.bitis)} </p>
         </div>
       </div>
 
